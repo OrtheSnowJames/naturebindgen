@@ -1,0 +1,1 @@
+get constant type and name and value working properly []

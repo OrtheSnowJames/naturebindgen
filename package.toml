@@ -1,0 +1,9 @@
+# Generated package.toml for Nature bindings
+name = "naturebindgen"
+version = "1.0.0"
+authors = ["naturebindgen"]
+description = "Generated C bindings for Nature"
+type = "lib"
+
+[links]
+raylib = { darwin_arm64 = 'lib/libraylib_darwin_arm64.a', darwin_amd64 = 'lib/libraylib_darwin_arm64.a', linux_amd64 = 'lib/libraylibd.a' }
