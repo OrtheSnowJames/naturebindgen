@@ -367,6 +367,12 @@ func (bg *BindingGenerator) mapCTypeToNature(cType string) string {
 		baseType := strings.TrimSpace(parts[0])
 		sizeStr := strings.TrimRight(parts[1], "]")
 
+		// Check if the base type is an anonymous struct that we need to canonicalize
+		if mapped, ok := bg.anonTypeNameMap[baseType]; ok {
+			bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Canonicalizing array base type '%s' to '%s'\n", baseType, mapped))
+			baseType = mapped
+		}
+
 		natureBaseType := bg.mapCTypeToNature(baseType)
 		if sizeStr == "" {
 			return fmt.Sprintf("[%s]", natureBaseType)
@@ -477,7 +483,21 @@ func (bg *BindingGenerator) visitCursor(cursor clang.Cursor, depth int) {
 
 	switch kind {
 	case clang.Cursor_StructDecl:
-		bg.handleCursorStructDecl(cursor, cursor.Spelling(), depth)
+		// For anonymous structs, we need to find a proper context
+		if spelling == "" || strings.Contains(spelling, "unnamed") || strings.Contains(spelling, " at ") {
+			// This is an anonymous struct, we need to find its parent context
+			parent := cursor.SemanticParent()
+			if parent.Kind() == clang.Cursor_TypedefDecl {
+				// This is a typedef struct, use the typedef name as context
+				typedefName := parent.Spelling()
+				bg.handleCursorStructDecl(cursor, typedefName, depth)
+			} else {
+				// For truly anonymous structs, use a generic context
+				bg.handleCursorStructDecl(cursor, "AnonymousStruct", depth)
+			}
+		} else {
+			bg.handleCursorStructDecl(cursor, spelling, depth)
+		}
 	case clang.Cursor_FieldDecl:
 		bg.handleFieldDecl(cursor, nil, depth)
 	case clang.Cursor_TypedefDecl:
@@ -487,7 +507,21 @@ func (bg *BindingGenerator) visitCursor(cursor clang.Cursor, depth int) {
 	case clang.Cursor_EnumDecl:
 		bg.handleEnumDecl(cursor, depth)
 	case clang.Cursor_UnionDecl:
-		bg.handleCursorUnionDecl(cursor, cursor.Spelling(), depth)
+		// For anonymous unions, we need to find a proper context
+		if spelling == "" || strings.Contains(spelling, "unnamed") || strings.Contains(spelling, " at ") {
+			// This is an anonymous union, we need to find its parent context
+			parent := cursor.SemanticParent()
+			if parent.Kind() == clang.Cursor_TypedefDecl {
+				// This is a typedef union, use the typedef name as context
+				typedefName := parent.Spelling()
+				bg.handleCursorUnionDecl(cursor, typedefName, depth)
+			} else {
+				// For truly anonymous unions, use a generic context
+				bg.handleCursorUnionDecl(cursor, "AnonymousUnion", depth)
+			}
+		} else {
+			bg.handleCursorUnionDecl(cursor, spelling, depth)
+		}
 	case clang.Cursor_MacroDefinition: // Only call handleMacroDefinition for actual macros
 		literalType := cursor.Type() // Although for MacroDefinition, this might not be strictly a "literal type" but the underlying type of the macro's expansion if it's a constant.
 		bg.handleMacroDefinition(cursor, depth, literalType)
@@ -514,18 +548,16 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 	spelling := cursor.Spelling()
 	isAnonymous := spelling == "" || strings.Contains(spelling, "unnamed") || strings.Contains(spelling, " at ")
 	var structName string
+
 	if isAnonymous {
 		structName = context
 		if structName == "" {
 			structName = "AnonymousStruct"
 		}
-		clangName := spelling
-		if clangName != "" {
-			// Only map if not already mapped
-			if _, exists := bg.anonTypeNameMap[clangName]; !exists {
-				bg.anonTypeNameMap[clangName] = structName
-				bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Mapping clang anonymous name '%s' to context name '%s'\n", clangName, structName))
-			}
+		// Always map the Clang spelling to our context-based name
+		if spelling != "" {
+			bg.anonTypeNameMap[spelling] = structName
+			bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Mapping clang anonymous name '%s' to context name '%s'\n", spelling, structName))
 		}
 	} else {
 		// If this spelling is mapped to a context name, use the context name instead
@@ -542,11 +574,7 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 		bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Skipping already registered struct: %s (spelling: '%s', context: '%s')\n", structName, spelling, context))
 		return // Already processed
 	}
-	// If this is a Clang anonymous spelling and is mapped, skip registration
-	if isAnonymous && spelling != "" && bg.anonTypeNameMap[spelling] != structName {
-		bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Skipping duplicate registration for clang anonymous name '%s' (already mapped to '%s')\n", spelling, bg.anonTypeNameMap[spelling]))
-		return
-	}
+
 	bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Registering struct: %s (spelling: '%s', context: '%s')\n", structName, spelling, context))
 
 	structBinding := StructBinding{
@@ -563,6 +591,7 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 			fieldName := child.Spelling()
 			fieldType := child.Type()
 			typeSpelling := fieldType.Spelling()
+
 			// Canonicalize anonymous type names
 			if mapped, ok := bg.anonTypeNameMap[typeSpelling]; ok {
 				bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Canonicalizing field type '%s' to '%s' for field '%s' in struct '%s'\n", typeSpelling, mapped, fieldName, structName))
@@ -582,7 +611,7 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 
 				switch declKind {
 				case clang.Cursor_StructDecl:
-					// Nested struct
+					// Nested struct - use proper context-based naming
 					childContext := structName + "_" + fieldName + "_Struct"
 					bg.handleCursorStructDecl(fieldType.Declaration(), childContext, depth+1)
 					structBinding.Fields = append(structBinding.Fields, StructField{
@@ -608,11 +637,35 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 					})
 				}
 			} else {
-				natureType := bg.mapCTypeToNature(typeSpelling)
-				structBinding.Fields = append(structBinding.Fields, StructField{
-					Name: bg.renameReservedKeywords(fieldName),
-					Type: natureType,
-				})
+				// Check if this is an array type that contains an anonymous struct
+				if strings.Contains(typeSpelling, "[") && strings.Contains(typeSpelling, "struct (unnamed") {
+					// Extract the base type and size
+					parts := strings.Split(typeSpelling, "[")
+					baseType := strings.TrimSpace(parts[0])
+					sizePart := strings.TrimRight(parts[1], "]")
+
+					// Create a context name for the anonymous struct in the array
+					arrayStructContext := structName + "_" + fieldName + "_Struct"
+
+					// Map the anonymous struct to our context name
+					if _, ok := bg.anonTypeNameMap[baseType]; !ok {
+						bg.anonTypeNameMap[baseType] = arrayStructContext
+						bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Mapping array anonymous struct '%s' to '%s'\n", baseType, arrayStructContext))
+					}
+
+					// Generate the array type with the canonicalized name
+					natureType := fmt.Sprintf("[%s;%s]", arrayStructContext, sizePart)
+					structBinding.Fields = append(structBinding.Fields, StructField{
+						Name: bg.renameReservedKeywords(fieldName),
+						Type: natureType,
+					})
+				} else {
+					natureType := bg.mapCTypeToNature(typeSpelling)
+					structBinding.Fields = append(structBinding.Fields, StructField{
+						Name: bg.renameReservedKeywords(fieldName),
+						Type: natureType,
+					})
+				}
 			}
 		}
 		return clang.ChildVisit_Continue
@@ -766,7 +819,7 @@ func (bg *BindingGenerator) handleFieldDecl(cursor clang.Cursor, structBinding *
 		if fieldCursor.Kind() == clang.Cursor_StructDecl {
 			bg.headerLog.WriteString(fmt.Sprintf("%sFound nested struct field: %s\n",
 				strings.Repeat("  ", depth), fieldName))
-			// Recursively process the struct
+			// Recursively process the struct with proper context-based naming
 			nestedStructName := structBinding.Name + "_" + fieldName + "_Struct"
 			bg.handleCursorStructDecl(fieldCursor, nestedStructName, depth+1)
 			// Add field reference
@@ -1058,6 +1111,37 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 		macroValue = "0"
 	}
 
+	// --- Struct-valued macro support ---
+	// Try to match struct-valued macro, e.g. (Color){255,255,255,255} or Color{255,255,255,255}
+	structMacroRe := regexp.MustCompile(`^(?:\((\w+)\)|(\w+))\s*\{([^}]*)\}$`)
+	if matches := structMacroRe.FindStringSubmatch(macroValue); matches != nil {
+		structType := matches[1]
+		if structType == "" {
+			structType = matches[2]
+		}
+		values := matches[3]
+		valueList := strings.Split(values, ",")
+		// Use the actual struct fields from bg.structs
+		if structDef, ok := bg.structs[structType]; ok && len(structDef.Fields) == len(valueList) {
+			var parts []string
+			for i, v := range valueList {
+				parts = append(parts, fmt.Sprintf("%s=%s", structDef.Fields[i].Name, strings.TrimSpace(v)))
+			}
+			macroValue = fmt.Sprintf("%s{%s}", structType, strings.Join(parts, ","))
+		} else {
+			// Fallback: just use positional
+			macroValue = fmt.Sprintf("%s{%s}", structType, values)
+		}
+		macroType = structType
+		bg.constants[macroName] = ConstantItem{
+			Name:  macroName,
+			Type:  macroType,
+			Value: macroValue,
+		}
+		return
+	}
+	// --- End struct-valued macro support ---
+
 	// Determine the type based on the value
 	if strings.HasPrefix(macroValue, "\"") && strings.HasSuffix(macroValue, "\"") {
 		macroType = "string"
@@ -1073,8 +1157,7 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 		Value: macroValue,
 	}
 
-	bg.headerLog.WriteString(fmt.Sprintf("%sFound macro: %s = %s (%s)\n",
-		strings.Repeat("  ", depth), macroName, macroValue, macroType))
+	bg.headerLog.WriteString(fmt.Sprintf("%sFound macro: %s = %s (%s)\n", strings.Repeat("  ", depth), macroName, macroValue, macroType))
 }
 
 // handleIncludeDirective handles include directives

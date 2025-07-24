@@ -1,0 +1,16 @@
+import naturebindgen.bindings as ray
+
+fn main() {
+    ray.InitWindow(800, 600, "hoi!".ref())
+
+    ray.SetTargetFPS(60)
+
+    for !ray.WindowShouldClose {
+        ray.BeginDrawing()
+            ray.ClearBackground(ray.RAYWHITE)
+            ray.DrawText("hello", 10, 10, 20, ray.BLACK)
+        ray.EndDrawing()
+    }
+
+    ray.CloseWindow()
+}
