@@ -90,62 +90,62 @@ func (ub *UnionBinding) ToNature(bg *BindingGenerator) string {
 	unionTypeName := fmt.Sprintf("Union_%s_bytes", num2words.Convert(int(unionSizeBytes)))
 	sb.WriteString(fmt.Sprintf("type %s = [u8;%d]\n\n", unionTypeName, unionSizeBytes))
 
-	// Track generated function names to avoid duplicates
-	generatedFunctions := make(map[string]bool)
-
 	// Generate helper functions for each field as extension methods
-	for _, field := range ub.Fields {
-		cleanFieldName := strings.TrimSuffix(field.Name, "_")
-		cleanFieldType := field.Type
-		if strings.Contains(cleanFieldType, " at ") {
-			for structName := range bg.structs {
-				if strings.Contains(cleanFieldType, structName) {
-					cleanFieldType = structName
-					break
-				}
-			}
+	// NOTE: Union getter/setter functions commented out due to casting complexity in Nature
+	/*
+		for _, field := range ub.Fields {
+			cleanFieldName := strings.TrimSuffix(field.Name, "_")
+			cleanFieldType := field.Type
 			if strings.Contains(cleanFieldType, " at ") {
-				for name := range bg.structs {
-					if strings.HasPrefix(name, "AnonymousStruct_") {
-						cleanFieldType = name
+				for structName := range bg.structs {
+					if strings.Contains(cleanFieldType, structName) {
+						cleanFieldType = structName
 						break
 					}
 				}
+				if strings.Contains(cleanFieldType, " at ") {
+					for name := range bg.structs {
+						if strings.HasPrefix(name, "AnonymousStruct_") {
+							cleanFieldType = name
+							break
+						}
+					}
+				}
 			}
+
+			typeSuffix := cleanFieldType
+			if strings.Contains(typeSuffix, "[") {
+				parts := strings.Split(typeSuffix, "[")
+				baseType := parts[0]
+				sizePart := strings.TrimRight(parts[1], "]")
+				sizePart = strings.ReplaceAll(sizePart, ";", "_")
+				typeSuffix = fmt.Sprintf("%s_%s", baseType, sizePart)
+			}
+			if strings.Contains(typeSuffix, "ptr") {
+				typeSuffix = strings.ReplaceAll(typeSuffix, "rawptr<", "")
+				typeSuffix = strings.ReplaceAll(typeSuffix, ">", "")
+			}
+
+			getterName := fmt.Sprintf("get_%s_%s", cleanFieldName, typeSuffix)
+			setterName := fmt.Sprintf("set_%s_%s", cleanFieldName, typeSuffix)
+
+			if generatedFunctions[getterName] || generatedFunctions[setterName] {
+				continue
+			}
+			generatedFunctions[getterName] = true
+			generatedFunctions[setterName] = true
+
+			// Getter extension function (no explicit self argument)
+			sb.WriteString(fmt.Sprintf("fn %s.%s():%s {\n", unionTypeName, getterName, cleanFieldType))
+			sb.WriteString(fmt.Sprintf("    return *(%s*)&self\n", cleanFieldType))
+			sb.WriteString("}\n\n")
+
+			// Setter extension function (no explicit self argument, but use 'self' in body)
+			sb.WriteString(fmt.Sprintf("fn %s.%s(%s value) {\n", unionTypeName, setterName, cleanFieldType))
+			sb.WriteString(fmt.Sprintf("    *([u8;%d]*)&value\n", unionSizeBytes))
+			sb.WriteString("}\n\n")
 		}
-
-		typeSuffix := cleanFieldType
-		if strings.Contains(typeSuffix, "[") {
-			parts := strings.Split(typeSuffix, "[")
-			baseType := parts[0]
-			sizePart := strings.TrimRight(parts[1], "]")
-			sizePart = strings.ReplaceAll(sizePart, ";", "_")
-			typeSuffix = fmt.Sprintf("%s_%s", baseType, sizePart)
-		}
-		if strings.Contains(typeSuffix, "ptr") {
-			typeSuffix = strings.ReplaceAll(typeSuffix, "rawptr<", "")
-			typeSuffix = strings.ReplaceAll(typeSuffix, ">", "")
-		}
-
-		getterName := fmt.Sprintf("get_%s_%s", cleanFieldName, typeSuffix)
-		setterName := fmt.Sprintf("set_%s_%s", cleanFieldName, typeSuffix)
-
-		if generatedFunctions[getterName] || generatedFunctions[setterName] {
-			continue
-		}
-		generatedFunctions[getterName] = true
-		generatedFunctions[setterName] = true
-
-		// Getter extension function (no explicit self argument)
-		sb.WriteString(fmt.Sprintf("fn %s.%s():%s {\n", unionTypeName, getterName, cleanFieldType))
-		sb.WriteString(fmt.Sprintf("    return self as %s\n", cleanFieldType))
-		sb.WriteString("}\n\n")
-
-		// Setter extension function (no explicit self argument, but use 'self' in body)
-		sb.WriteString(fmt.Sprintf("fn %s.%s(value %s) {\n", unionTypeName, setterName, cleanFieldType))
-		sb.WriteString(fmt.Sprintf("    self = value as [u8;%d]\n", unionSizeBytes))
-		sb.WriteString("}\n\n")
-	}
+	*/
 
 	// No .to_c() method needed; type is already C-representable
 
@@ -705,6 +705,19 @@ func (bg *BindingGenerator) handleCursorStructDecl(cursor clang.Cursor, context 
 					if _, ok := bg.anonTypeNameMap[baseType]; !ok {
 						bg.anonTypeNameMap[baseType] = arrayStructContext
 						bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Mapping array anonymous struct '%s' to '%s'\n", baseType, arrayStructContext))
+
+						// Create the actual struct definition for the anonymous struct
+						// We need to process the field declaration to get the struct definition
+						if fieldType.CanonicalType().Kind() == clang.Type_ConstantArray {
+							elementType := fieldType.ArrayElementType()
+							if elementType.CanonicalType().Kind() == clang.Type_Record {
+								elementDecl := elementType.Declaration()
+								if elementDecl.Kind() == clang.Cursor_StructDecl {
+									bg.headerLog.WriteString(fmt.Sprintf("[DEBUG] Processing anonymous struct in array: %s\n", arrayStructContext))
+									bg.handleCursorStructDecl(elementDecl, arrayStructContext, depth+1)
+								}
+							}
+						}
 					}
 
 					// Generate the array type with the canonicalized name
@@ -1235,7 +1248,7 @@ func default_value[T comparable](value T, default_v T) T {
 	return default_v
 }
 
-func(bg *BindingGenerator) handleConstDefinition(cursor clang.Cursor, depth int) {
+func (bg *BindingGenerator) handleConstDefinition(cursor clang.Cursor, depth int) {
 	// Const handling
 	// const int five = 5;
 	var spelling string = default_value(cursor.Type().Spelling(), "int")
@@ -1245,8 +1258,8 @@ func(bg *BindingGenerator) handleConstDefinition(cursor clang.Cursor, depth int)
 	bg.headLog(fmt.Sprintf("Found constant with %s type, %s name and %s value", spelling, name, value), depth)
 
 	bg.constants[name] = ConstantItem{
-		Name: name,
-		Type: spelling,
+		Name:  name,
+		Type:  spelling,
 		Value: value,
 	}
 }
@@ -1370,6 +1383,10 @@ func (bg *BindingGenerator) generateNatureBindings() string {
 		sb.WriteString("// Constants\n")
 		sortedConstants := bg.sortConstantsByDependencies()
 		for _, constant := range sortedConstants {
+			// Skip constants with invalid identifiers (string literals)
+			if strings.HasPrefix(constant.Name, "\"") || strings.Contains(constant.Name, " ") {
+				continue
+			}
 			sb.WriteString(fmt.Sprintf("%s %s = %s\n", constant.Type, constant.Name, constant.Value))
 		}
 		sb.WriteString("\n")

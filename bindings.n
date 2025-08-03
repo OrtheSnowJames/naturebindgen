@@ -3,12 +3,6 @@
 
 // Constants
 int unknown = 5
-i32 "not gonna throw not implemented exception\n" = 0
-i32 "but it is not implemented\n" = 0
-i32 "Player: %s, Age: %d, Team: %s\n" = 0
-i32 "Red\n" = 0
-i32 "Blue\n" = 0
-i32 "Green\n" = 0
 
 // Enum constants
 int Color_C_ENUM_RED = 0
@@ -23,93 +17,34 @@ int ShapeType_C_ENUM_SHAPE_CIRCLE = 3
 type ComplexCallback = fn(rawptr<CallbackData>, CallbackResult):i32
 
 // Union definitions
+type Union_sixteen_bytes = [u8;16]
+
 type Union_twelve_bytes = [u8;12]
 
 type Union_four_bytes = [u8;4]
 
-fn Union_four_bytes.get_x_i32():i32 {
-    return self as i32
-}
-
-fn Union_four_bytes.set_x_i32(value i32) {
-    self = value as [u8;4]
-}
-
-fn Union_four_bytes.get_fx_f32():f32 {
-    return self as f32
-}
-
-fn Union_four_bytes.set_fx_f32(value f32) {
-    self = value as [u8;4]
-}
-
 type Union_eight_bytes = [u8;8]
-
-fn Union_eight_bytes.get_integer_value_i32():i32 {
-    return self as i32
-}
-
-fn Union_eight_bytes.set_integer_value_i32(value i32) {
-    self = value as [u8;8]
-}
-
-fn Union_eight_bytes.get_float_value_f32():f32 {
-    return self as f32
-}
-
-fn Union_eight_bytes.set_float_value_f32(value f32) {
-    self = value as [u8;8]
-}
-
-fn Union_eight_bytes.get_string_value_anyptr():anyptr {
-    return self as anyptr
-}
-
-fn Union_eight_bytes.set_string_value_anyptr(value anyptr) {
-    self = value as [u8;8]
-}
-
-type Union_sixteen_bytes = [u8;16]
-
-fn Union_sixteen_bytes.get_point_Union_sixteen_bytes_point_Struct():Union_sixteen_bytes_point_Struct {
-    return self as Union_sixteen_bytes_point_Struct
-}
-
-fn Union_sixteen_bytes.set_point_Union_sixteen_bytes_point_Struct(value Union_sixteen_bytes_point_Struct) {
-    self = value as [u8;16]
-}
-
-fn Union_sixteen_bytes.get_size_Union_sixteen_bytes_size_Struct():Union_sixteen_bytes_size_Struct {
-    return self as Union_sixteen_bytes_size_Struct
-}
-
-fn Union_sixteen_bytes.set_size_Union_sixteen_bytes_size_Struct(value Union_sixteen_bytes_size_Struct) {
-    self = value as [u8;16]
-}
-
-fn Union_sixteen_bytes.get_info_Union_sixteen_bytes_info_Struct():Union_sixteen_bytes_info_Struct {
-    return self as Union_sixteen_bytes_info_Struct
-}
-
-fn Union_sixteen_bytes.set_info_Union_sixteen_bytes_info_Struct(value Union_sixteen_bytes_info_Struct) {
-    self = value as [u8;16]
-}
 
 
 // Struct definitions
-type ComplexShape_bounds_Struct_top_left_Struct = struct {
+type ShapeUnion = struct {
+    Union_sixteen_bytes shape_data
+    i32 shape_type
+}
+
+type CallbackResult = struct {
+    i32 status
+    anyptr message
+}
+
+type Point2D = struct {
     i32 x
     i32 y
 }
 
-type ComplexShape_bounds_Struct_bottom_right_Struct = struct {
-    i32 x
-    i32 y
-}
-
-type FlexibleData = struct {
-    Union_sixteen_bytes content
-    i8 tag
+type LogConfig = struct {
+    i32 count
+    anyptr format
 }
 
 type CallbackData = struct {
@@ -118,46 +53,10 @@ type CallbackData = struct {
     anyptr name
 }
 
-type Player = struct {
-    i32 id
-    [i8;100] name
-    i32 age
-    [i8;100] team
-}
-
-type ComplexShape_metadata_Struct = struct {
-    anyptr title
-    i32 id
-}
-
-type Union_sixteen_bytes_size_Struct = struct {
-    i32 width
-    i32 height
-}
-
-type Union_sixteen_bytes_info_Struct = struct {
-    anyptr name
-    i32 id
-}
-
-type LogConfig = struct {
-    i32 count
-    anyptr format
-}
-
-type ArrayStruct_transform_Struct = struct {
-    [f32;3] matrix
-    Point3D origin
-}
-
-type Rectangle_dimensions_Struct = struct {
-    i32 width
-    i32 height
-}
-
-type AnonymousStruct = struct {
-    i32 width
-    i32 height
+type Point3D = struct {
+    f32 x
+    f32 y
+    f32 z
 }
 
 type ColoredPoint_color_Struct = struct {
@@ -167,24 +66,9 @@ type ColoredPoint_color_Struct = struct {
     u8 a
 }
 
-type Union_sixteen_bytes_point_Struct = struct {
-    i32 x
-    i32 y
-}
-
-type ShapeUnion = struct {
-    Union_sixteen_bytes shape_data
-    i32 shape_type
-}
-
-type MixedAnonymous = struct {
-    MixedAnonymous_coordinates_Struct coordinates
-    MixedAnonymous_info_Struct info
-}
-
-type ArrayStruct_container_Struct = struct {
-    i32 count
-    [ArrayStruct_container_Struct_items_Struct;10] items
+type ComplexShape = struct {
+    ComplexShape_bounds_Struct bounds
+    ComplexShape_metadata_Struct metadata
 }
 
 type VariantData = struct {
@@ -192,14 +76,9 @@ type VariantData = struct {
     i32 type_
 }
 
-type DeepNested_outer_Struct = struct {
-    DeepNested_outer_Struct_middle_Struct middle
-    Point2D position
-}
-
-type MixedAnonymous_coordinates_Struct = struct {
-    Union_four_bytes coord_x
-    Union_four_bytes coord_y
+type Union_sixteen_bytes_info_Struct = struct {
+    anyptr name
+    i32 id
 }
 
 type DeepNested = struct {
@@ -207,25 +86,31 @@ type DeepNested = struct {
     i32 count
 }
 
-type MixedAnonymous_info_Struct = struct {
-    anyptr name
+type MixedAnonymous = struct {
+    MixedAnonymous_coordinates_Struct coordinates
+    MixedAnonymous_info_Struct info
+}
+
+type Shape = struct {
+    any type_
+    Union_sixteen_bytes data
+}
+
+type Player = struct {
     i32 id
+    [i8;100] name
+    i32 age
+    [i8;100] team
 }
 
-type ComplexShape = struct {
-    ComplexShape_bounds_Struct bounds
-    ComplexShape_metadata_Struct metadata
+type Rectangle_dimensions_Struct = struct {
+    i32 width
+    i32 height
 }
 
-type Point3D = struct {
-    f32 x
-    f32 y
-    f32 z
-}
-
-type ColoredPoint = struct {
-    ColoredPoint_color_Struct color
-    Point2D position
+type ComplexShape_bounds_Struct_bottom_right_Struct = struct {
+    i32 x
+    i32 y
 }
 
 type ComplexShape_bounds_Struct = struct {
@@ -233,9 +118,49 @@ type ComplexShape_bounds_Struct = struct {
     ComplexShape_bounds_Struct_bottom_right_Struct bottom_right
 }
 
-type DeepNested_outer_Struct_middle_Struct_inner_Struct = struct {
+type DeepNested_outer_Struct = struct {
+    DeepNested_outer_Struct_middle_Struct middle
+    Point2D position
+}
+
+type MixedAnonymous_info_Struct = struct {
+    anyptr name
+    i32 id
+}
+
+type ArrayStruct_container_Struct_items_Struct = struct {
+    anyptr name
     i32 value
-    anyptr description
+}
+
+type ArrayStruct_container_Struct = struct {
+    i32 count
+    [ArrayStruct_container_Struct_items_Struct;10] items
+}
+
+type AnonymousStruct = struct {
+    i32 width
+    i32 height
+}
+
+type Union_sixteen_bytes_point_Struct = struct {
+    i32 x
+    i32 y
+}
+
+type DeepNested_outer_Struct_middle_Struct = struct {
+    DeepNested_outer_Struct_middle_Struct_inner_Struct inner
+    f32 factor
+}
+
+type ArrayStruct_transform_Struct = struct {
+    [f32;3] matrix
+    Point3D origin
+}
+
+type ArrayStruct = struct {
+    ArrayStruct_container_Struct container
+    ArrayStruct_transform_Struct transform
 }
 
 type Point = struct {
@@ -243,9 +168,14 @@ type Point = struct {
     f32 y
 }
 
-type Point2D = struct {
-    i32 x
-    i32 y
+type ComplexShape_metadata_Struct = struct {
+    anyptr title
+    i32 id
+}
+
+type FlexibleData = struct {
+    Union_sixteen_bytes content
+    i8 tag
 }
 
 type MultiUnionStruct = struct {
@@ -254,19 +184,9 @@ type MultiUnionStruct = struct {
     Union_twelve_bytes color
 }
 
-type Shape = struct {
-    any type_
-    Union_sixteen_bytes data
-}
-
-type ArrayStruct = struct {
-    ArrayStruct_container_Struct container
-    ArrayStruct_transform_Struct transform
-}
-
-type DeepNested_outer_Struct_middle_Struct = struct {
-    DeepNested_outer_Struct_middle_Struct_inner_Struct inner
-    f32 factor
+type MixedAnonymous_coordinates_Struct = struct {
+    Union_four_bytes coord_x
+    Union_four_bytes coord_y
 }
 
 type Rectangle = struct {
@@ -274,17 +194,44 @@ type Rectangle = struct {
     anyptr name
 }
 
-type CallbackResult = struct {
-    i32 status
-    anyptr message
+type ComplexShape_bounds_Struct_top_left_Struct = struct {
+    i32 x
+    i32 y
+}
+
+type DeepNested_outer_Struct_middle_Struct_inner_Struct = struct {
+    i32 value
+    anyptr description
+}
+
+type ColoredPoint = struct {
+    ColoredPoint_color_Struct color
+    Point2D position
+}
+
+type Union_sixteen_bytes_size_Struct = struct {
+    i32 width
+    i32 height
 }
 
 // Function bindings
+#linkid draw_point
+fn draw_point(rawptr<Point> point)
+
+#linkid print_player
+fn print_player(rawptr<Player> player)
+
+#linkid print_color
+fn print_color(any color)
+
+#linkid log_message
+fn log_message(rawptr<LogConfig> config, ...[any] args):i32
+
+#linkid process_shape
+fn process_shape(rawptr<Shape> shape)
+
 #linkid handle_variant
 fn handle_variant(rawptr<VariantData> variant)
-
-#linkid calculate_area
-fn calculate_area(rawptr<Rectangle> rect):i32
 
 #linkid transform_point
 fn transform_point(rawptr<Point3D> point, [f32;3] matrix)
@@ -292,18 +239,6 @@ fn transform_point(rawptr<Point3D> point, [f32;3] matrix)
 #linkid register_callback
 fn register_callback(fn(rawptr<CallbackData>, CallbackResult):i32 callback):fn(rawptr<CallbackData>, CallbackResult):i32
 
-#linkid draw_point
-fn draw_point(rawptr<Point> point)
-
-#linkid print_player
-fn print_player(rawptr<Player> player)
-
-#linkid process_shape
-fn process_shape(rawptr<Shape> shape)
-
-#linkid print_color
-fn print_color(any color)
-
-#linkid log_message
-fn log_message(rawptr<LogConfig> config, ...[any] args):i32
+#linkid calculate_area
+fn calculate_area(rawptr<Rectangle> rect):i32
 
