@@ -1,14 +1,19 @@
 import naturebindgen.bindings as ray
 
+fn window_should_close(): bool {
+    i32 window_should_close = ray.WindowShouldClose()
+    return window_should_close != 0
+}
+
 fn main() {
     ray.InitWindow(800, 600, "hoi!".ref())
 
     ray.SetTargetFPS(60)
 
-    for !ray.WindowShouldClose {
+    for !window_should_close() {
         ray.BeginDrawing()
             ray.ClearBackground(ray.RAYWHITE)
-            ray.DrawText("hello", 10, 10, 20, ray.BLACK)
+            ray.DrawText("hello".ref(), 10, 10, 20, ray.BLACK)
         ray.EndDrawing()
     }
 

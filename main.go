@@ -325,7 +325,7 @@ func (bg *BindingGenerator) mapCursorKindToCType(kind clang.CursorKind) string {
 	}
 }
 
-// mapCTypeToNature converts a C type to its Nature equivalent
+// `mapCTyp`eToNature converts a C type to its Nature equivalent
 func (bg *BindingGenerator) mapCTypeToNature(cType string) string {
 	// Clean up the type string
 	cType = strings.TrimSpace(cType)
@@ -427,39 +427,68 @@ func (bg *BindingGenerator) mapCTypeToNature(cType string) string {
 func (bg *BindingGenerator) parseHeaderFile(filename string) error {
 	// Mark this file as included
 	bg.includedFiles[filename] = true
-	bg.headerLog.WriteString(fmt.Sprintf("Parsing header: %s\n", filename))
+	bg.headLog(fmt.Sprintf("Parsing header: %s\n", filename), 0)
+
+	// Check if the file exists
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		bg.headLog(fmt.Sprintf("[ERROR] File does not exist: %s\n", filename), 0)
+		return fmt.Errorf("file does not exist: %s", filename)
+	}
 
 	// Determine the base directory for relative includes
 	if bg.baseDir == "" {
 		bg.baseDir = filepath.Dir(filename)
 	}
 
-	// Create a temporary C file to parse the header
-	tempFile := filename + "_temp.c"
-	tempContent := fmt.Sprintf("#include \"%s\"\n", filepath.Base(filename))
-
-	if err := os.WriteFile(tempFile, []byte(tempContent), 0644); err != nil {
-		return fmt.Errorf("failed to create temp file: %v", err)
-	}
-	defer os.Remove(tempFile)
-
 	// Parse with clang
 	idx := clang.NewIndex(0, 0)
 	defer idx.Dispose()
 
-	tu := idx.ParseTranslationUnit(tempFile, nil, nil, 0)
+	// Try parsing the header file directly first
+	bg.headLog(fmt.Sprintf("[DEBUG] Trying to parse header file directly: %s\n", filename), 0)
+	tu := idx.ParseTranslationUnit(filename, nil, nil, 0)
 	if tu == (clang.TranslationUnit{}) {
-		return fmt.Errorf("failed to parse translation unit")
+		// Fall back to temporary C file approach
+		bg.headLog("[DEBUG] Direct parsing failed, trying temp file approach\n", 0)
+		tempFile := filename + "_temp.c"
+		tempContent := fmt.Sprintf("#include \"%s\"\n", filepath.Base(filename))
+
+		if err := os.WriteFile(tempFile, []byte(tempContent), 0644); err != nil {
+			return fmt.Errorf("failed to create temp file: %v", err)
+		}
+		// defer os.Remove(tempFile) // Commented out for debugging
+
+		bg.headLog(fmt.Sprintf("[DEBUG] Parsing translation unit: %s\n", tempFile), 0)
+		tu = idx.ParseTranslationUnit(tempFile, nil, nil, 0)
+		if tu == (clang.TranslationUnit{}) {
+			return fmt.Errorf("failed to parse translation unit")
+		}
+	} else {
+		bg.headLog("[DEBUG] Direct parsing succeeded\n", 0)
 	}
 	defer tu.Dispose()
 
+	// Check for parsing errors
+	numDiagnostics := tu.NumDiagnostics()
+	bg.headLog(fmt.Sprintf("[DEBUG] Number of diagnostics: %d\n", numDiagnostics), 0)
+	for i := uint32(0); i < numDiagnostics; i++ {
+		diagnostic := tu.Diagnostic(i)
+		bg.headLog(fmt.Sprintf("[DEBUG] Diagnostic %d: %s\n", i, diagnostic.Spelling()), 0)
+	}
+
 	// Get the cursor for the translation unit
 	cursor := tu.TranslationUnitCursor()
+	bg.headLog(fmt.Sprintf("[DEBUG] Translation unit cursor kind: %s\n", cursor.Kind().String()), 0)
+	bg.headLog(fmt.Sprintf("[DEBUG] Translation unit cursor spelling: %s\n", cursor.Spelling()), 0)
 
 	// Visit all children to find declarations
 	bg.visitCursor(cursor, 0)
 
 	return nil
+}
+
+func (bg *BindingGenerator) headLog(s string, depth int) {
+	bg.headerLog.WriteString(strings.Repeat("  ", depth) + s)
 }
 
 // visitCursor recursively visits all cursors in the AST
@@ -478,8 +507,15 @@ func (bg *BindingGenerator) visitCursor(cursor clang.Cursor, depth int) {
 	kind := cursor.Kind()
 	spelling := cursor.Spelling()
 
-	bg.headerLog.WriteString(fmt.Sprintf("%s[DEBUG] Visiting cursor: %s (%s) at depth %d\n",
-		strings.Repeat("  ", depth), spelling, kind.String(), depth))
+	// Only log interesting cursors, not the spammy ones
+	if kind != clang.Cursor_ParmDecl && kind != clang.Cursor_TypeRef {
+		bg.headLog(fmt.Sprintf("[DEBUG] Visiting cursor: %s (%s) at depth %d\n", spelling, kind, depth), depth)
+	}
+
+	handleMacroCallback := func() {
+		bg.headLog(fmt.Sprintf("[DEBUG] Visiting macro definition: %s\n", cursor.Spelling()), depth)
+		bg.handleMacroDefinition(cursor, depth)
+	}
 
 	switch kind {
 	case clang.Cursor_StructDecl:
@@ -522,14 +558,27 @@ func (bg *BindingGenerator) visitCursor(cursor clang.Cursor, depth int) {
 		} else {
 			bg.handleCursorUnionDecl(cursor, spelling, depth)
 		}
-	case clang.Cursor_MacroDefinition: // Only call handleMacroDefinition for actual macros
-		literalType := cursor.Type() // Although for MacroDefinition, this might not be strictly a "literal type" but the underlying type of the macro's expansion if it's a constant.
-		bg.handleMacroDefinition(cursor, depth, literalType)
+	case clang.Cursor_MacroDefinition:
+		handleMacroCallback()
+	case clang.Cursor_IntegerLiteral:
+		bg.handleConstDefinition(cursor, depth)
 	case clang.Cursor_InclusionDirective:
 		bg.handleIncludeDirective(cursor, depth)
+	case clang.Cursor_TranslationUnit, 350:
+		bg.headLog("[DEBUG] Visiting translation unit\n", depth)
+		bg.headLog(fmt.Sprintf("[DEBUG] Translation unit attr %s\n", cursor.TranslationUnit().Spelling()), depth)
+	case clang.Cursor_ParmDecl, clang.Cursor_TypeRef:
+		// These are normal cursor types, just skip them silently
+		// They're part of function parameter declarations and type references
+		return
 	default:
-		bg.headerLog.WriteString(fmt.Sprintf("%s[DEBUG] Unknown cursor kind: %s, %d\n", strings.Repeat("  ", depth), kind.String(), int(kind)))
 		initalizerCursor := cursor.VarDeclInitializer()
+
+		if strings.HasSuffix(kind.String(), "Literal") {
+			handleMacroCallback()
+			break
+		}
+		bg.headLog(fmt.Sprintf("[DEBUG] Unknown cursor kind: %s, %d\n", kind.String(), int(kind)), depth)
 
 		if !initalizerCursor.IsNull() {
 			kind = initalizerCursor.Kind()
@@ -538,6 +587,11 @@ func (bg *BindingGenerator) visitCursor(cursor clang.Cursor, depth int) {
 
 	// Visit children
 	cursor.Visit(func(cursor, parent clang.Cursor) clang.ChildVisitResult {
+		// Only log children that are actually interesting (not ParmDecl/TypeRef)
+		childKind := cursor.Kind()
+		if childKind != clang.Cursor_ParmDecl && childKind != clang.Cursor_TypeRef {
+			bg.headLog(fmt.Sprintf("[DEBUG] Visiting child: %s (%s)\n", cursor.Spelling(), childKind.String()), depth+1)
+		}
 		bg.visitCursor(cursor, depth+1)
 		return clang.ChildVisit_Continue
 	})
@@ -947,7 +1001,7 @@ func (bg *BindingGenerator) handleTypedefDecl(cursor clang.Cursor, depth int) {
 		}
 	}
 
-	// Regular typedef
+	// Regular typedef, or macro definition
 	natureType := bg.mapCTypeToNature(typeSpelling)
 
 	// If this is a typedef for a union, map it directly to the union type name
@@ -1071,48 +1125,61 @@ func (bg *BindingGenerator) handleEnumDecl(cursor clang.Cursor, depth int) {
 }
 
 // handleMacroDefinition handles macro definitions
-func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int, kind clang.Type) {
-	bg.headerLog.WriteString(fmt.Sprintf("%sFound macro: %s\n", strings.Repeat("  ", depth), cursor.Spelling()))
+func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int) {
 	macroName := cursor.Spelling()
+	bg.headLog(fmt.Sprintf("[DEBUG] Found macro: '%s' (spelling: '%s')\n", macroName, cursor.Spelling()), depth)
 
-	// Get the macro value by reading the source file
-	var macroValue string = "0"  // Default value
-	var macroType string = "int" // Default type
+	// Default
+	var macroValue string = "0"
+	var macroType string = "i32"
 
 	location := cursor.Location()
 	if !location.IsInSystemHeader() {
-		// Try to read the macro definition from the source file
-		file, _, _, _ := location.FileLocation()
+		file, line, _, _ := location.FileLocation()
 		if file != (clang.File{}) {
 			fileName := file.Name()
+			bg.headLog(fmt.Sprintf("[DEBUG] Reading macro from file: %s at line %d\n", fileName, line), depth)
 			content, err := os.ReadFile(fileName)
+
 			if err == nil {
 				lines := strings.Split(string(content), "\n")
-				// Look for the macro definition in the file
-				for _, line := range lines {
-					line = strings.TrimSpace(line)
-					if strings.HasPrefix(line, "#define "+macroName+" ") {
-						bg.headerLog.WriteString(fmt.Sprintf("%sFound macro definition: %s\n", strings.Repeat("  ", depth), line))
-						// Extract the value after the macro name
-						parts := strings.SplitN(line, " ", 3)
-						if len(parts) >= 3 {
-							macroValue = strings.TrimSpace(parts[2])
-							break
+				if int(line) > 0 && int(line) <= len(lines) {
+					macroLine := strings.TrimSpace(lines[int(line)-1])
+					bg.headLog(fmt.Sprintf("[DEBUG] Macro line: %s\n", macroLine), depth)
+
+					// Extract the value after the macro name
+					macroPrefix := "#define " + macroName
+					if strings.HasPrefix(macroLine, macroPrefix) {
+						rest := strings.TrimSpace(macroLine[len(macroPrefix):])
+						if rest == "" {
+							bg.headLog("[DEBUG] Macro has no value, skipping\n", depth)
+							return
 						}
+						// Skip function-like macros
+						if strings.HasPrefix(rest, "(") {
+							bg.headLog("[DEBUG] Skipping function-like macro\n", depth)
+							return
+						}
+						macroValue = rest
+						bg.headLog(fmt.Sprintf("[DEBUG] Extracted macro value: '%s'\n", macroValue), depth)
 					}
 				}
+			} else {
+				bg.headLog(fmt.Sprintf("[DEBUG] Failed to read file: %v\n", err), depth)
 			}
+		} else {
+			bg.headLog("[DEBUG] No file location found for macro\n", depth)
 		}
 	}
 
 	// Clean up the macro value
 	macroValue = strings.TrimSpace(macroValue)
 	if macroValue == "" {
-		macroValue = "0"
+		bg.headLog("[DEBUG] Macro value is empty after cleanup, skipping\n", depth)
+		return
 	}
 
-	// --- Struct-valued macro support ---
-	// Try to match struct-valued macro, e.g. (Color){255,255,255,255} or Color{255,255,255,255}
+	// Handle struct-valued macros: (type){stuff} or type{stuff}
 	structMacroRe := regexp.MustCompile(`^(?:\((\w+)\)|(\w+))\s*\{([^}]*)\}$`)
 	if matches := structMacroRe.FindStringSubmatch(macroValue); matches != nil {
 		structType := matches[1]
@@ -1121,7 +1188,8 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 		}
 		values := matches[3]
 		valueList := strings.Split(values, ",")
-		// Use the actual struct fields from bg.structs
+
+		// Find the struct definition to get field names
 		if structDef, ok := bg.structs[structType]; ok && len(structDef.Fields) == len(valueList) {
 			var parts []string
 			for i, v := range valueList {
@@ -1129,7 +1197,7 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 			}
 			macroValue = fmt.Sprintf("%s{%s}", structType, strings.Join(parts, ","))
 		} else {
-			// Fallback: just use positional
+			// Fallback: just use positional values
 			macroValue = fmt.Sprintf("%s{%s}", structType, values)
 		}
 		macroType = structType
@@ -1140,11 +1208,10 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 		}
 		return
 	}
-	// --- End struct-valued macro support ---
 
 	// Determine the type based on the value
 	if strings.HasPrefix(macroValue, "\"") && strings.HasSuffix(macroValue, "\"") {
-		macroType = "string"
+		macroType = "anyptr"
 	} else if strings.Contains(macroValue, ".") {
 		macroType = "f64"
 	} else {
@@ -1157,7 +1224,31 @@ func (bg *BindingGenerator) handleMacroDefinition(cursor clang.Cursor, depth int
 		Value: macroValue,
 	}
 
-	bg.headerLog.WriteString(fmt.Sprintf("%sFound macro: %s = %s (%s)\n", strings.Repeat("  ", depth), macroName, macroValue, macroType))
+	bg.headLog(fmt.Sprintf("[DEBUG] Added macro: %s = %s (%s)\n", macroName, macroValue, macroType), depth)
+}
+
+func default_value[T comparable](value T, default_v T) T {
+	var zero T
+	if value != zero {
+		return value
+	}
+	return default_v
+}
+
+func(bg *BindingGenerator) handleConstDefinition(cursor clang.Cursor, depth int) {
+	// Const handling
+	// const int five = 5;
+	var spelling string = default_value(cursor.Type().Spelling(), "int")
+	var name string = default_value(cursor.Spelling(), "unknown")
+	var value string = default_value(cursor.VarDeclInitializer().Spelling(), "5")
+
+	bg.headLog(fmt.Sprintf("Found constant with %s type, %s name and %s value", spelling, name, value), depth)
+
+	bg.constants[name] = ConstantItem{
+		Name: name,
+		Type: spelling,
+		Value: value,
+	}
 }
 
 // handleIncludeDirective handles include directives
@@ -1463,6 +1554,5 @@ func main() {
 	fmt.Printf("Functions: %d\n", len(bg.functions))
 	fmt.Printf("Structs: %d\n", len(bg.structs))
 	fmt.Printf("Constants: %d\n", len(bg.constants))
-	fmt.Printf("Const int declarations: %d\n", len(bg.constantValues))
 	fmt.Printf("Enums: %d\n", len(bg.enums))
 }

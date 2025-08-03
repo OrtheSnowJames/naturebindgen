@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include "share.h"
 
+#define five 5
+
 // Basic types for testing
 typedef struct {
     int x;
