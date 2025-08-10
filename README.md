@@ -4,7 +4,7 @@ A binding generator for the [nature](https://github.com/nature-lang/nature) lang
 
 ## Why python?
 
-I chose python for this language for object oriented programming with official clang bindings. I did not know at the time of choosing that libclang had oop in C++.
+I chose python for this language for object oriented programming with official clang bindings. I did not know at the time of choosing that libclang had OOP in C++.
 It was too late, though.
 
 ## Why to nature?
@@ -21,6 +21,12 @@ The nature binding generator handles constants, structs, unions and functions. I
 
 ```sh
 git clone https://github.com/OrtheSnowJames/naturebindgen
+```
+
+2. Install requirements
+
+```sh
+python3 -m pip install -r requirements.txt
 ```
 
 2. Just run the python code!

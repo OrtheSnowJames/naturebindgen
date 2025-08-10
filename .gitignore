@@ -17,3 +17,5 @@ naturebindgen-test-*
 
 # Ignore old D code
 source  
+dub.json
+dub.selections.json
