@@ -1,4 +1,3 @@
-from _typeshed import Incomplete
 from out_types import Constant, Enum, Function, Struct, Union, UnnamedObject
 from textwrap import dedent as dedent
 
@@ -11,7 +10,7 @@ class BindingGenerator:
     typedefs: dict[str, str]
     union_sizes: dict[str, int]
     clang_to_contextual: dict[UnnamedObject, str]
-    reserved_keywords: Incomplete
+    reserved_keywords: set[str]
     def __init__(self) -> None: ...
     def parse_header(self, header_path: str, c_args: list[str] | None = None): ...
     def generate_bindings(self) -> str: ...

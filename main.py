@@ -44,7 +44,7 @@ class BindingGenerator:
         self._anon_type_map: Dict[str, str] = {} # Maps Clang anonymous names to our generated ones
         self._queued_macros: List[tuple[Cursor, str, List[str], bool]] = []
 
-        self.reserved_keywords = {"type"}
+        self.reserved_keywords: Set[str] = {"type", "ptr"}
 
         self._initialize_type_mappings()
 
@@ -784,12 +784,28 @@ class BindingGenerator:
             except StopIteration:
                 name_index = -1
             if name_index != -1 and name_index + 1 < len(fast_tokens):
+                # Skip function-like macro definitions (NAME(...))
+                if fast_tokens[name_index + 1].spelling == '(':
+                    print(f"DEBUG: Skipping function-like macro def: {macro_name}")
+                    return
                 replacement_tokens = fast_tokens[name_index + 1:]
                 replacement = ''.join(t.spelling for t in replacement_tokens).strip()
                 print(f"DEBUG: Macro replacement for {macro_name}: '{replacement}'")
                 if replacement:
                     # Detect struct compound literals: (Type){...} or Type{...}
                     import re as _re
+                    # Handle CLITERAL(Type){...} → Type{...}
+                    m_clit = _re.match(r"^CLITERAL\s*\(\s*(?:struct\s+)?(\w+)\s*\)\s*\{([\s\S]*)\}$", replacement)
+                    if m_clit:
+                        struct_name = m_clit.group(1)
+                        if struct_name in self.structs:
+                            raw_vals = m_clit.group(2)
+                            value = self._format_struct_initializer(struct_name, raw_vals) or f"{struct_name}{{{raw_vals}}}"
+                            ctype = struct_name
+                            self.constants[macro_name] = Constant(name=macro_name, value=value, ctype=ctype)
+                            print(f"DEBUG: [fast-CLITERAL] Added constant: {macro_name} = {value} ({ctype})")
+                            return
+                        # Fallthrough to processor if unknown struct
                     m = _re.match(r"^\(\s*(?:struct\s+)?(\w+)\s*\)\s*\{([\s\S]*)\}$", replacement)
                     if not m:
                         m = _re.match(r"^(?:struct\s+)?(\w+)\s*\{([\s\S]*)\}$", replacement)
@@ -820,17 +836,53 @@ class BindingGenerator:
                                     return
                                 except Exception:
                                     pass
-                    # Determine a simple type
+                    # Determine a simple or alias type
+                    # Skip pure identifier aliases (likely unresolved or function aliases)
+                    if _re.fullmatch(r"[A-Za-z_]\w*", replacement):
+                        # If it aliases a known function, definitely skip
+                        if replacement in self.functions:
+                            print(f"DEBUG: Skipping function alias macro: {macro_name} -> {replacement}")
+                            return
+                        print(f"DEBUG: Skipping identifier alias macro: {macro_name} -> {replacement}")
+                        return
+                    # Skip function-like invocations e.g. (n,sz)calloc(n,sz) or free(ptr)
+                    if '(' in replacement and ')' in replacement and not replacement.startswith('(') and '){' not in replacement:
+                        print(f"DEBUG: Skipping invocation-like macro: {macro_name} -> {replacement}")
+                        return
+                    # Strings
                     if replacement.startswith('"') and replacement.endswith('"'):
                         ctype = 'anyptr'
                         value = f"{replacement}.ref()"
-                    else:
-                        # Try to detect integer literal (default to i32)
-                        ctype = 'i32'
-                        value = replacement
-
-                    self.constants[macro_name] = Constant(name=macro_name, value=value, ctype=ctype)
-                    print(f"DEBUG: [fast] Added constant: {macro_name} = {value} ({ctype})")
+                        self.constants[macro_name] = Constant(name=macro_name, value=value, ctype=ctype)
+                        print(f"DEBUG: [fast-str] Added constant: {macro_name} = {value} ({ctype})")
+                        return
+                    # Numeric or arithmetic expressions
+                    # Normalize float suffix 'f' and drop redundant outer parens
+                    def _strip_outer_parens(s: str) -> str:
+                        if s.startswith('(') and s.endswith(')'):
+                            # simple balance check
+                            depth=0
+                            for i,ch in enumerate(s):
+                                if ch=='(':
+                                    depth+=1
+                                elif ch==')':
+                                    depth-=1
+                                    if depth==0 and i!=len(s)-1:
+                                        return s
+                            return s[1:-1]
+                        return s
+                    norm = replacement
+                    norm = norm.replace('f)', ')')
+                    norm = norm.replace('f*', '*')
+                    norm = norm.replace('f/', '/')
+                    norm = norm.replace('f+', '+')
+                    norm = norm.replace('f-', '-')
+                    # strip trailing f on lone numbers
+                    norm = _re.sub(r"(?<=\d)f\b", "", norm)
+                    norm = _strip_outer_parens(norm)
+                    ctype = 'f32' if any(c in norm for c in ['.', 'e', 'E']) else 'i32'
+                    self.constants[macro_name] = Constant(name=macro_name, value=norm, ctype=ctype)
+                    print(f"DEBUG: [fast-num] Added constant: {macro_name} = {norm} ({ctype})")
                     return
 
         # Get the actual header file path

@@ -2,93 +2,2351 @@
 // This file was automatically generated naturebindgen.
 
 // Constants from Macros
-ComplexStruct COMPLEX_VAL = ComplexStruct{info=ComplexStruct_nested_Struct{metric=newUnion_four_bytes(42),description="ok".ref()},position=Point{x=3,y=4}}
-i32 FLAG_ENABLED = 1
-i32 MAX_SIZE = 1024
-anyptr VERSION = "1.0.0".ref()
-Point point = Point{x=1,y=2}
+Color BEIGE = Color{r=211,g=176,b=131,a=255}
+Color BLACK = Color{r=0,g=0,b=0,a=255}
+Color BLANK = Color{r=0,g=0,b=0,a=0}
+Color BLUE = Color{r=0,g=121,b=241,a=255}
+Color BROWN = Color{r=127,g=106,b=79,a=255}
+Color DARKBLUE = Color{r=0,g=82,b=172,a=255}
+Color DARKBROWN = Color{r=76,g=63,b=47,a=255}
+Color DARKGRAY = Color{r=80,g=80,b=80,a=255}
+Color DARKGREEN = Color{r=0,g=117,b=44,a=255}
+Color DARKPURPLE = Color{r=112,g=31,b=126,a=255}
+Color GOLD = Color{r=255,g=203,b=0,a=255}
+Color GRAY = Color{r=130,g=130,b=130,a=255}
+Color GREEN = Color{r=0,g=228,b=48,a=255}
+Color LIGHTGRAY = Color{r=200,g=200,b=200,a=255}
+Color LIME = Color{r=0,g=158,b=47,a=255}
+Color MAGENTA = Color{r=255,g=0,b=255,a=255}
+Color MAROON = Color{r=190,g=33,b=55,a=255}
+Color ORANGE = Color{r=255,g=161,b=0,a=255}
+f32 PI = 3.14159265358979323846
+Color PINK = Color{r=255,g=109,b=194,a=255}
+Color PURPLE = Color{r=200,g=122,b=255,a=255}
+anyptr RAYLIB_VERSION = "5.5".ref()
+i32 RAYLIB_VERSION_MAJOR = 5
+i32 RAYLIB_VERSION_MINOR = 5
+i32 RAYLIB_VERSION_PATCH = 0
+Color RAYWHITE = Color{r=245,g=245,b=245,a=255}
+Color RED = Color{r=230,g=41,b=55,a=255}
+Color SKYBLUE = Color{r=102,g=191,b=255,a=255}
+Color VIOLET = Color{r=135,g=60,b=190,a=255}
+Color WHITE = Color{r=255,g=255,b=255,a=255}
+Color YELLOW = Color{r=253,g=249,b=0,a=255}
 
 // Enum Constants
-int Color_RED = 1
-int Color_GREEN = 2
-int Color_BLUE = 3
-
-// Union Definitions (as byte arrays)
-
-type Union_eight_bytes = [u8;8]
-
-
-fn newUnion_eight_bytes<T>(T value):Union_eight_bytes {
-    u8 zero = 0 as u8
-    Union_eight_bytes result = [zero,zero,zero,zero,zero,zero,zero,zero]
-    result as anyptr as rawptr<T> as T = value
-    return result
-}
-type Union_four_bytes = [u8;4]
-
-
-fn newUnion_four_bytes<T>(T value):Union_four_bytes {
-    u8 zero = 0 as u8
-    Union_four_bytes result = [zero,zero,zero,zero]
-    result as anyptr as rawptr<T> as T = value
-    return result
-}
+int ConfigFlags_FLAG_VSYNC_HINT = 64
+int ConfigFlags_FLAG_FULLSCREEN_MODE = 2
+int ConfigFlags_FLAG_WINDOW_RESIZABLE = 4
+int ConfigFlags_FLAG_WINDOW_UNDECORATED = 8
+int ConfigFlags_FLAG_WINDOW_HIDDEN = 128
+int ConfigFlags_FLAG_WINDOW_MINIMIZED = 512
+int ConfigFlags_FLAG_WINDOW_MAXIMIZED = 1024
+int ConfigFlags_FLAG_WINDOW_UNFOCUSED = 2048
+int ConfigFlags_FLAG_WINDOW_TOPMOST = 4096
+int ConfigFlags_FLAG_WINDOW_ALWAYS_RUN = 256
+int ConfigFlags_FLAG_WINDOW_TRANSPARENT = 16
+int ConfigFlags_FLAG_WINDOW_HIGHDPI = 8192
+int ConfigFlags_FLAG_WINDOW_MOUSE_PASSTHROUGH = 16384
+int ConfigFlags_FLAG_BORDERLESS_WINDOWED_MODE = 32768
+int ConfigFlags_FLAG_MSAA_4X_HINT = 32
+int ConfigFlags_FLAG_INTERLACED_HINT = 65536
+int TraceLogLevel_LOG_ALL = 0
+int TraceLogLevel_LOG_TRACE = 1
+int TraceLogLevel_LOG_DEBUG = 2
+int TraceLogLevel_LOG_INFO = 3
+int TraceLogLevel_LOG_WARNING = 4
+int TraceLogLevel_LOG_ERROR = 5
+int TraceLogLevel_LOG_FATAL = 6
+int TraceLogLevel_LOG_NONE = 7
+int KeyboardKey_KEY_NULL = 0
+int KeyboardKey_KEY_APOSTROPHE = 39
+int KeyboardKey_KEY_COMMA = 44
+int KeyboardKey_KEY_MINUS = 45
+int KeyboardKey_KEY_PERIOD = 46
+int KeyboardKey_KEY_SLASH = 47
+int KeyboardKey_KEY_ZERO = 48
+int KeyboardKey_KEY_ONE = 49
+int KeyboardKey_KEY_TWO = 50
+int KeyboardKey_KEY_THREE = 51
+int KeyboardKey_KEY_FOUR = 52
+int KeyboardKey_KEY_FIVE = 53
+int KeyboardKey_KEY_SIX = 54
+int KeyboardKey_KEY_SEVEN = 55
+int KeyboardKey_KEY_EIGHT = 56
+int KeyboardKey_KEY_NINE = 57
+int KeyboardKey_KEY_SEMICOLON = 59
+int KeyboardKey_KEY_EQUAL = 61
+int KeyboardKey_KEY_A = 65
+int KeyboardKey_KEY_B = 66
+int KeyboardKey_KEY_C = 67
+int KeyboardKey_KEY_D = 68
+int KeyboardKey_KEY_E = 69
+int KeyboardKey_KEY_F = 70
+int KeyboardKey_KEY_G = 71
+int KeyboardKey_KEY_H = 72
+int KeyboardKey_KEY_I = 73
+int KeyboardKey_KEY_J = 74
+int KeyboardKey_KEY_K = 75
+int KeyboardKey_KEY_L = 76
+int KeyboardKey_KEY_M = 77
+int KeyboardKey_KEY_N = 78
+int KeyboardKey_KEY_O = 79
+int KeyboardKey_KEY_P = 80
+int KeyboardKey_KEY_Q = 81
+int KeyboardKey_KEY_R = 82
+int KeyboardKey_KEY_S = 83
+int KeyboardKey_KEY_T = 84
+int KeyboardKey_KEY_U = 85
+int KeyboardKey_KEY_V = 86
+int KeyboardKey_KEY_W = 87
+int KeyboardKey_KEY_X = 88
+int KeyboardKey_KEY_Y = 89
+int KeyboardKey_KEY_Z = 90
+int KeyboardKey_KEY_LEFT_BRACKET = 91
+int KeyboardKey_KEY_BACKSLASH = 92
+int KeyboardKey_KEY_RIGHT_BRACKET = 93
+int KeyboardKey_KEY_GRAVE = 96
+int KeyboardKey_KEY_SPACE = 32
+int KeyboardKey_KEY_ESCAPE = 256
+int KeyboardKey_KEY_ENTER = 257
+int KeyboardKey_KEY_TAB = 258
+int KeyboardKey_KEY_BACKSPACE = 259
+int KeyboardKey_KEY_INSERT = 260
+int KeyboardKey_KEY_DELETE = 261
+int KeyboardKey_KEY_RIGHT = 262
+int KeyboardKey_KEY_LEFT = 263
+int KeyboardKey_KEY_DOWN = 264
+int KeyboardKey_KEY_UP = 265
+int KeyboardKey_KEY_PAGE_UP = 266
+int KeyboardKey_KEY_PAGE_DOWN = 267
+int KeyboardKey_KEY_HOME = 268
+int KeyboardKey_KEY_END = 269
+int KeyboardKey_KEY_CAPS_LOCK = 280
+int KeyboardKey_KEY_SCROLL_LOCK = 281
+int KeyboardKey_KEY_NUM_LOCK = 282
+int KeyboardKey_KEY_PRINT_SCREEN = 283
+int KeyboardKey_KEY_PAUSE = 284
+int KeyboardKey_KEY_F1 = 290
+int KeyboardKey_KEY_F2 = 291
+int KeyboardKey_KEY_F3 = 292
+int KeyboardKey_KEY_F4 = 293
+int KeyboardKey_KEY_F5 = 294
+int KeyboardKey_KEY_F6 = 295
+int KeyboardKey_KEY_F7 = 296
+int KeyboardKey_KEY_F8 = 297
+int KeyboardKey_KEY_F9 = 298
+int KeyboardKey_KEY_F10 = 299
+int KeyboardKey_KEY_F11 = 300
+int KeyboardKey_KEY_F12 = 301
+int KeyboardKey_KEY_LEFT_SHIFT = 340
+int KeyboardKey_KEY_LEFT_CONTROL = 341
+int KeyboardKey_KEY_LEFT_ALT = 342
+int KeyboardKey_KEY_LEFT_SUPER = 343
+int KeyboardKey_KEY_RIGHT_SHIFT = 344
+int KeyboardKey_KEY_RIGHT_CONTROL = 345
+int KeyboardKey_KEY_RIGHT_ALT = 346
+int KeyboardKey_KEY_RIGHT_SUPER = 347
+int KeyboardKey_KEY_KB_MENU = 348
+int KeyboardKey_KEY_KP_0 = 320
+int KeyboardKey_KEY_KP_1 = 321
+int KeyboardKey_KEY_KP_2 = 322
+int KeyboardKey_KEY_KP_3 = 323
+int KeyboardKey_KEY_KP_4 = 324
+int KeyboardKey_KEY_KP_5 = 325
+int KeyboardKey_KEY_KP_6 = 326
+int KeyboardKey_KEY_KP_7 = 327
+int KeyboardKey_KEY_KP_8 = 328
+int KeyboardKey_KEY_KP_9 = 329
+int KeyboardKey_KEY_KP_DECIMAL = 330
+int KeyboardKey_KEY_KP_DIVIDE = 331
+int KeyboardKey_KEY_KP_MULTIPLY = 332
+int KeyboardKey_KEY_KP_SUBTRACT = 333
+int KeyboardKey_KEY_KP_ADD = 334
+int KeyboardKey_KEY_KP_ENTER = 335
+int KeyboardKey_KEY_KP_EQUAL = 336
+int KeyboardKey_KEY_BACK = 4
+int KeyboardKey_KEY_MENU = 5
+int KeyboardKey_KEY_VOLUME_UP = 24
+int KeyboardKey_KEY_VOLUME_DOWN = 25
+int MouseButton_MOUSE_BUTTON_LEFT = 0
+int MouseButton_MOUSE_BUTTON_RIGHT = 1
+int MouseButton_MOUSE_BUTTON_MIDDLE = 2
+int MouseButton_MOUSE_BUTTON_SIDE = 3
+int MouseButton_MOUSE_BUTTON_EXTRA = 4
+int MouseButton_MOUSE_BUTTON_FORWARD = 5
+int MouseButton_MOUSE_BUTTON_BACK = 6
+int MouseCursor_MOUSE_CURSOR_DEFAULT = 0
+int MouseCursor_MOUSE_CURSOR_ARROW = 1
+int MouseCursor_MOUSE_CURSOR_IBEAM = 2
+int MouseCursor_MOUSE_CURSOR_CROSSHAIR = 3
+int MouseCursor_MOUSE_CURSOR_POINTING_HAND = 4
+int MouseCursor_MOUSE_CURSOR_RESIZE_EW = 5
+int MouseCursor_MOUSE_CURSOR_RESIZE_NS = 6
+int MouseCursor_MOUSE_CURSOR_RESIZE_NWSE = 7
+int MouseCursor_MOUSE_CURSOR_RESIZE_NESW = 8
+int MouseCursor_MOUSE_CURSOR_RESIZE_ALL = 9
+int MouseCursor_MOUSE_CURSOR_NOT_ALLOWED = 10
+int GamepadButton_GAMEPAD_BUTTON_UNKNOWN = 0
+int GamepadButton_GAMEPAD_BUTTON_LEFT_FACE_UP = 1
+int GamepadButton_GAMEPAD_BUTTON_LEFT_FACE_RIGHT = 2
+int GamepadButton_GAMEPAD_BUTTON_LEFT_FACE_DOWN = 3
+int GamepadButton_GAMEPAD_BUTTON_LEFT_FACE_LEFT = 4
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_FACE_UP = 5
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_FACE_RIGHT = 6
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_FACE_DOWN = 7
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_FACE_LEFT = 8
+int GamepadButton_GAMEPAD_BUTTON_LEFT_TRIGGER_1 = 9
+int GamepadButton_GAMEPAD_BUTTON_LEFT_TRIGGER_2 = 10
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_TRIGGER_1 = 11
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_TRIGGER_2 = 12
+int GamepadButton_GAMEPAD_BUTTON_MIDDLE_LEFT = 13
+int GamepadButton_GAMEPAD_BUTTON_MIDDLE = 14
+int GamepadButton_GAMEPAD_BUTTON_MIDDLE_RIGHT = 15
+int GamepadButton_GAMEPAD_BUTTON_LEFT_THUMB = 16
+int GamepadButton_GAMEPAD_BUTTON_RIGHT_THUMB = 17
+int GamepadAxis_GAMEPAD_AXIS_LEFT_X = 0
+int GamepadAxis_GAMEPAD_AXIS_LEFT_Y = 1
+int GamepadAxis_GAMEPAD_AXIS_RIGHT_X = 2
+int GamepadAxis_GAMEPAD_AXIS_RIGHT_Y = 3
+int GamepadAxis_GAMEPAD_AXIS_LEFT_TRIGGER = 4
+int GamepadAxis_GAMEPAD_AXIS_RIGHT_TRIGGER = 5
+int MaterialMapIndex_MATERIAL_MAP_ALBEDO = 0
+int MaterialMapIndex_MATERIAL_MAP_METALNESS = 1
+int MaterialMapIndex_MATERIAL_MAP_NORMAL = 2
+int MaterialMapIndex_MATERIAL_MAP_ROUGHNESS = 3
+int MaterialMapIndex_MATERIAL_MAP_OCCLUSION = 4
+int MaterialMapIndex_MATERIAL_MAP_EMISSION = 5
+int MaterialMapIndex_MATERIAL_MAP_HEIGHT = 6
+int MaterialMapIndex_MATERIAL_MAP_CUBEMAP = 7
+int MaterialMapIndex_MATERIAL_MAP_IRRADIANCE = 8
+int MaterialMapIndex_MATERIAL_MAP_PREFILTER = 9
+int MaterialMapIndex_MATERIAL_MAP_BRDF = 10
+int ShaderLocationIndex_SHADER_LOC_VERTEX_POSITION = 0
+int ShaderLocationIndex_SHADER_LOC_VERTEX_TEXCOORD01 = 1
+int ShaderLocationIndex_SHADER_LOC_VERTEX_TEXCOORD02 = 2
+int ShaderLocationIndex_SHADER_LOC_VERTEX_NORMAL = 3
+int ShaderLocationIndex_SHADER_LOC_VERTEX_TANGENT = 4
+int ShaderLocationIndex_SHADER_LOC_VERTEX_COLOR = 5
+int ShaderLocationIndex_SHADER_LOC_MATRIX_MVP = 6
+int ShaderLocationIndex_SHADER_LOC_MATRIX_VIEW = 7
+int ShaderLocationIndex_SHADER_LOC_MATRIX_PROJECTION = 8
+int ShaderLocationIndex_SHADER_LOC_MATRIX_MODEL = 9
+int ShaderLocationIndex_SHADER_LOC_MATRIX_NORMAL = 10
+int ShaderLocationIndex_SHADER_LOC_VECTOR_VIEW = 11
+int ShaderLocationIndex_SHADER_LOC_COLOR_DIFFUSE = 12
+int ShaderLocationIndex_SHADER_LOC_COLOR_SPECULAR = 13
+int ShaderLocationIndex_SHADER_LOC_COLOR_AMBIENT = 14
+int ShaderLocationIndex_SHADER_LOC_MAP_ALBEDO = 15
+int ShaderLocationIndex_SHADER_LOC_MAP_METALNESS = 16
+int ShaderLocationIndex_SHADER_LOC_MAP_NORMAL = 17
+int ShaderLocationIndex_SHADER_LOC_MAP_ROUGHNESS = 18
+int ShaderLocationIndex_SHADER_LOC_MAP_OCCLUSION = 19
+int ShaderLocationIndex_SHADER_LOC_MAP_EMISSION = 20
+int ShaderLocationIndex_SHADER_LOC_MAP_HEIGHT = 21
+int ShaderLocationIndex_SHADER_LOC_MAP_CUBEMAP = 22
+int ShaderLocationIndex_SHADER_LOC_MAP_IRRADIANCE = 23
+int ShaderLocationIndex_SHADER_LOC_MAP_PREFILTER = 24
+int ShaderLocationIndex_SHADER_LOC_MAP_BRDF = 25
+int ShaderLocationIndex_SHADER_LOC_VERTEX_BONEIDS = 26
+int ShaderLocationIndex_SHADER_LOC_VERTEX_BONEWEIGHTS = 27
+int ShaderLocationIndex_SHADER_LOC_BONE_MATRICES = 28
+int ShaderUniformDataType_SHADER_UNIFORM_FLOAT = 0
+int ShaderUniformDataType_SHADER_UNIFORM_VEC2 = 1
+int ShaderUniformDataType_SHADER_UNIFORM_VEC3 = 2
+int ShaderUniformDataType_SHADER_UNIFORM_VEC4 = 3
+int ShaderUniformDataType_SHADER_UNIFORM_INT = 4
+int ShaderUniformDataType_SHADER_UNIFORM_IVEC2 = 5
+int ShaderUniformDataType_SHADER_UNIFORM_IVEC3 = 6
+int ShaderUniformDataType_SHADER_UNIFORM_IVEC4 = 7
+int ShaderUniformDataType_SHADER_UNIFORM_SAMPLER2D = 8
+int ShaderAttributeDataType_SHADER_ATTRIB_FLOAT = 0
+int ShaderAttributeDataType_SHADER_ATTRIB_VEC2 = 1
+int ShaderAttributeDataType_SHADER_ATTRIB_VEC3 = 2
+int ShaderAttributeDataType_SHADER_ATTRIB_VEC4 = 3
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_GRAYSCALE = 1
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA = 2
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R5G6B5 = 3
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R8G8B8 = 4
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R5G5B5A1 = 5
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R4G4B4A4 = 6
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 = 7
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R32 = 8
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R32G32B32 = 9
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R32G32B32A32 = 10
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R16 = 11
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R16G16B16 = 12
+int PixelFormat_PIXELFORMAT_UNCOMPRESSED_R16G16B16A16 = 13
+int PixelFormat_PIXELFORMAT_COMPRESSED_DXT1_RGB = 14
+int PixelFormat_PIXELFORMAT_COMPRESSED_DXT1_RGBA = 15
+int PixelFormat_PIXELFORMAT_COMPRESSED_DXT3_RGBA = 16
+int PixelFormat_PIXELFORMAT_COMPRESSED_DXT5_RGBA = 17
+int PixelFormat_PIXELFORMAT_COMPRESSED_ETC1_RGB = 18
+int PixelFormat_PIXELFORMAT_COMPRESSED_ETC2_RGB = 19
+int PixelFormat_PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA = 20
+int PixelFormat_PIXELFORMAT_COMPRESSED_PVRT_RGB = 21
+int PixelFormat_PIXELFORMAT_COMPRESSED_PVRT_RGBA = 22
+int PixelFormat_PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA = 23
+int PixelFormat_PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA = 24
+int TextureFilter_TEXTURE_FILTER_POINT = 0
+int TextureFilter_TEXTURE_FILTER_BILINEAR = 1
+int TextureFilter_TEXTURE_FILTER_TRILINEAR = 2
+int TextureFilter_TEXTURE_FILTER_ANISOTROPIC_4X = 3
+int TextureFilter_TEXTURE_FILTER_ANISOTROPIC_8X = 4
+int TextureFilter_TEXTURE_FILTER_ANISOTROPIC_16X = 5
+int TextureWrap_TEXTURE_WRAP_REPEAT = 0
+int TextureWrap_TEXTURE_WRAP_CLAMP = 1
+int TextureWrap_TEXTURE_WRAP_MIRROR_REPEAT = 2
+int TextureWrap_TEXTURE_WRAP_MIRROR_CLAMP = 3
+int CubemapLayout_CUBEMAP_LAYOUT_AUTO_DETECT = 0
+int CubemapLayout_CUBEMAP_LAYOUT_LINE_VERTICAL = 1
+int CubemapLayout_CUBEMAP_LAYOUT_LINE_HORIZONTAL = 2
+int CubemapLayout_CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR = 3
+int CubemapLayout_CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE = 4
+int FontType_FONT_DEFAULT = 0
+int FontType_FONT_BITMAP = 1
+int FontType_FONT_SDF = 2
+int BlendMode_BLEND_ALPHA = 0
+int BlendMode_BLEND_ADDITIVE = 1
+int BlendMode_BLEND_MULTIPLIED = 2
+int BlendMode_BLEND_ADD_COLORS = 3
+int BlendMode_BLEND_SUBTRACT_COLORS = 4
+int BlendMode_BLEND_ALPHA_PREMULTIPLY = 5
+int BlendMode_BLEND_CUSTOM = 6
+int BlendMode_BLEND_CUSTOM_SEPARATE = 7
+int Gesture_GESTURE_NONE = 0
+int Gesture_GESTURE_TAP = 1
+int Gesture_GESTURE_DOUBLETAP = 2
+int Gesture_GESTURE_HOLD = 4
+int Gesture_GESTURE_DRAG = 8
+int Gesture_GESTURE_SWIPE_RIGHT = 16
+int Gesture_GESTURE_SWIPE_LEFT = 32
+int Gesture_GESTURE_SWIPE_UP = 64
+int Gesture_GESTURE_SWIPE_DOWN = 128
+int Gesture_GESTURE_PINCH_IN = 256
+int Gesture_GESTURE_PINCH_OUT = 512
+int CameraMode_CAMERA_CUSTOM = 0
+int CameraMode_CAMERA_FREE = 1
+int CameraMode_CAMERA_ORBITAL = 2
+int CameraMode_CAMERA_FIRST_PERSON = 3
+int CameraMode_CAMERA_THIRD_PERSON = 4
+int CameraProjection_CAMERA_PERSPECTIVE = 0
+int CameraProjection_CAMERA_ORTHOGRAPHIC = 1
+int NPatchLayout_NPATCH_NINE_PATCH = 0
+int NPatchLayout_NPATCH_THREE_PATCH_VERTICAL = 1
+int NPatchLayout_NPATCH_THREE_PATCH_HORIZONTAL = 2
 
 // Struct Definitions
-type Point = struct {
-    i32 x
-    i32 y
+type Vector2 = struct {
+    f32 x
+    f32 y
 }
 
-type Person = struct {
-    [i8;50] name
-    i32 age
+type Vector3 = struct {
+    f32 x
+    f32 y
+    f32 z
 }
 
-type Container = struct {
-    Container_nested_Struct point
-    i32 id
+type Vector4 = struct {
+    f32 x
+    f32 y
+    f32 z
+    f32 w
 }
 
-type Container_nested_Struct = struct {
-    i32 x
-    i32 y
+type Matrix = struct {
+    f32 m0
+    f32 m4
+    f32 m8
+    f32 m12
+    f32 m1
+    f32 m5
+    f32 m9
+    f32 m13
+    f32 m2
+    f32 m6
+    f32 m10
+    f32 m14
+    f32 m3
+    f32 m7
+    f32 m11
+    f32 m15
 }
 
-type Response = struct {
-    Union_eight_bytes result
-    i32 id
+type Color = struct {
+    u8 r
+    u8 g
+    u8 b
+    u8 a
 }
 
-type ComplexStruct = struct {
-    ComplexStruct_nested_Struct info
-    Point position
+type Rectangle = struct {
+    f32 x
+    f32 y
+    f32 width
+    f32 height
 }
 
-type ComplexStruct_nested_Struct = struct {
-    Union_four_bytes metric
-    anyptr description
+type Image = struct {
+    anyptr data
+    i32 width
+    i32 height
+    i32 mipmaps
+    i32 format
+}
+
+type Texture = struct {
+    u32 id
+    i32 width
+    i32 height
+    i32 mipmaps
+    i32 format
+}
+
+type RenderTexture = struct {
+    u32 id
+    Texture texture
+    Texture depth
+}
+
+type NPatchInfo = struct {
+    Rectangle source
+    i32 left
+    i32 top
+    i32 right
+    i32 bottom
+    i32 layout
+}
+
+type GlyphInfo = struct {
+    i32 value
+    i32 offsetX
+    i32 offsetY
+    i32 advanceX
+    Image image
+}
+
+type Font = struct {
+    i32 baseSize
+    i32 glyphCount
+    i32 glyphPadding
+    Texture texture
+    anyptr recs
+    anyptr glyphs
+}
+
+type Camera3D = struct {
+    Vector3 position
+    Vector3 target
+    Vector3 up
+    f32 fovy
+    i32 projection
+}
+
+type Camera2D = struct {
+    Vector2 offset
+    Vector2 target
+    f32 rotation
+    f32 zoom
+}
+
+type Mesh = struct {
+    i32 vertexCount
+    i32 triangleCount
+    anyptr vertices
+    anyptr texcoords
+    anyptr texcoords2
+    anyptr normals
+    anyptr tangents
+    anyptr colors
+    anyptr indices
+    anyptr animVertices
+    anyptr animNormals
+    anyptr boneIds
+    anyptr boneWeights
+    anyptr boneMatrices
+    i32 boneCount
+    u32 vaoId
+    anyptr vboId
+}
+
+type Shader = struct {
+    u32 id
+    anyptr locs
+}
+
+type MaterialMap = struct {
+    Texture texture
+    Color color
+    f32 value
+}
+
+type Material = struct {
+    Shader shader
+    anyptr maps
+    [f32;4] params
+}
+
+type Transform = struct {
+    Vector3 translation
+    Vector4 rotation
+    Vector3 scale
+}
+
+type BoneInfo = struct {
+    [i8;32] name
+    i32 parent
+}
+
+type Model = struct {
+    Matrix transform
+    i32 meshCount
+    i32 materialCount
+    anyptr meshes
+    anyptr materials
+    anyptr meshMaterial
+    i32 boneCount
+    anyptr bones
+    anyptr bindPose
+}
+
+type ModelAnimation = struct {
+    i32 boneCount
+    i32 frameCount
+    anyptr bones
+    anyptr framePoses
+    [i8;32] name
+}
+
+type Ray = struct {
+    Vector3 position
+    Vector3 direction
+}
+
+type RayCollision = struct {
+    i32 hit
+    f32 distance
+    Vector3 point
+    Vector3 normal
+}
+
+type BoundingBox = struct {
+    Vector3 min
+    Vector3 max
+}
+
+type Wave = struct {
+    u32 frameCount
+    u32 sampleRate
+    u32 sampleSize
+    u32 channels
+    anyptr data
+}
+
+type AudioStream = struct {
+    anyptr buffer
+    anyptr processor
+    u32 sampleRate
+    u32 sampleSize
+    u32 channels
+}
+
+type Sound = struct {
+    AudioStream stream
+    u32 frameCount
+}
+
+type Music = struct {
+    AudioStream stream
+    u32 frameCount
+    i32 looping
+    i32 ctxType
+    anyptr ctxData
+}
+
+type VrDeviceInfo = struct {
+    i32 hResolution
+    i32 vResolution
+    f32 hScreenSize
+    f32 vScreenSize
+    f32 eyeToScreenDistance
+    f32 lensSeparationDistance
+    f32 interpupillaryDistance
+    [f32;4] lensDistortionValues
+    [f32;4] chromaAbCorrection
+}
+
+type VrStereoConfig = struct {
+    [Matrix;2] projection
+    [Matrix;2] viewOffset
+    [f32;2] leftLensCenter
+    [f32;2] rightLensCenter
+    [f32;2] leftScreenCenter
+    [f32;2] rightScreenCenter
+    [f32;2] scale
+    [f32;2] scaleIn
+}
+
+type FilePathList = struct {
+    u32 capacity
+    u32 count
+    anyptr paths
+}
+
+type AutomationEvent = struct {
+    u32 frame
+    u32 type_
+    [i32;4] params
+}
+
+type AutomationEventList = struct {
+    u32 capacity
+    u32 count
+    anyptr events
 }
 
 
 // Function Bindings
-#linkid printf
-fn printf(anyptr fmt, ...[any] args):i32
+#linkid InitWindow
+fn InitWindow(i32 width, i32 height, anyptr title)
 
-#linkid sprintf
-fn sprintf(anyptr buf, anyptr fmt, ...[any] args):i32
+#linkid CloseWindow
+fn CloseWindow()
 
-#linkid do_callback
-fn do_callback(anyptr reason, anyptr cb):i32
+#linkid WindowShouldClose
+fn WindowShouldClose():i32
 
-#linkid draw_point
-fn draw_point(anyptr p)
+#linkid IsWindowReady
+fn IsWindowReady():i32
 
-#linkid draw_anything
-fn draw_anything(anyptr data)
+#linkid IsWindowFullscreen
+fn IsWindowFullscreen():i32
 
-#linkid draw_string
-fn draw_string(anyptr str)
+#linkid IsWindowHidden
+fn IsWindowHidden():i32
 
-#linkid process_person
-fn process_person(anyptr person)
+#linkid IsWindowMinimized
+fn IsWindowMinimized():i32
+
+#linkid IsWindowMaximized
+fn IsWindowMaximized():i32
+
+#linkid IsWindowFocused
+fn IsWindowFocused():i32
+
+#linkid IsWindowResized
+fn IsWindowResized():i32
+
+#linkid IsWindowState
+fn IsWindowState(u32 flag):i32
+
+#linkid SetWindowState
+fn SetWindowState(u32 flags)
+
+#linkid ClearWindowState
+fn ClearWindowState(u32 flags)
+
+#linkid ToggleFullscreen
+fn ToggleFullscreen()
+
+#linkid ToggleBorderlessWindowed
+fn ToggleBorderlessWindowed()
+
+#linkid MaximizeWindow
+fn MaximizeWindow()
+
+#linkid MinimizeWindow
+fn MinimizeWindow()
+
+#linkid RestoreWindow
+fn RestoreWindow()
+
+#linkid SetWindowIcon
+fn SetWindowIcon(Image image)
+
+#linkid SetWindowIcons
+fn SetWindowIcons(anyptr images, i32 count)
+
+#linkid SetWindowTitle
+fn SetWindowTitle(anyptr title)
+
+#linkid SetWindowPosition
+fn SetWindowPosition(i32 x, i32 y)
+
+#linkid SetWindowMonitor
+fn SetWindowMonitor(i32 monitor)
+
+#linkid SetWindowMinSize
+fn SetWindowMinSize(i32 width, i32 height)
+
+#linkid SetWindowMaxSize
+fn SetWindowMaxSize(i32 width, i32 height)
+
+#linkid SetWindowSize
+fn SetWindowSize(i32 width, i32 height)
+
+#linkid SetWindowOpacity
+fn SetWindowOpacity(f32 opacity)
+
+#linkid SetWindowFocused
+fn SetWindowFocused()
+
+#linkid GetWindowHandle
+fn GetWindowHandle():anyptr
+
+#linkid GetScreenWidth
+fn GetScreenWidth():i32
+
+#linkid GetScreenHeight
+fn GetScreenHeight():i32
+
+#linkid GetRenderWidth
+fn GetRenderWidth():i32
+
+#linkid GetRenderHeight
+fn GetRenderHeight():i32
+
+#linkid GetMonitorCount
+fn GetMonitorCount():i32
+
+#linkid GetCurrentMonitor
+fn GetCurrentMonitor():i32
+
+#linkid GetMonitorPosition
+fn GetMonitorPosition(i32 monitor):Vector2
+
+#linkid GetMonitorWidth
+fn GetMonitorWidth(i32 monitor):i32
+
+#linkid GetMonitorHeight
+fn GetMonitorHeight(i32 monitor):i32
+
+#linkid GetMonitorPhysicalWidth
+fn GetMonitorPhysicalWidth(i32 monitor):i32
+
+#linkid GetMonitorPhysicalHeight
+fn GetMonitorPhysicalHeight(i32 monitor):i32
+
+#linkid GetMonitorRefreshRate
+fn GetMonitorRefreshRate(i32 monitor):i32
+
+#linkid GetWindowPosition
+fn GetWindowPosition():Vector2
+
+#linkid GetWindowScaleDPI
+fn GetWindowScaleDPI():Vector2
+
+#linkid GetMonitorName
+fn GetMonitorName(i32 monitor):anyptr
+
+#linkid SetClipboardText
+fn SetClipboardText(anyptr text)
+
+#linkid GetClipboardText
+fn GetClipboardText():anyptr
+
+#linkid GetClipboardImage
+fn GetClipboardImage():Image
+
+#linkid EnableEventWaiting
+fn EnableEventWaiting()
+
+#linkid DisableEventWaiting
+fn DisableEventWaiting()
+
+#linkid ShowCursor
+fn ShowCursor()
+
+#linkid HideCursor
+fn HideCursor()
+
+#linkid IsCursorHidden
+fn IsCursorHidden():i32
+
+#linkid EnableCursor
+fn EnableCursor()
+
+#linkid DisableCursor
+fn DisableCursor()
+
+#linkid IsCursorOnScreen
+fn IsCursorOnScreen():i32
+
+#linkid ClearBackground
+fn ClearBackground(Color color)
+
+#linkid BeginDrawing
+fn BeginDrawing()
+
+#linkid EndDrawing
+fn EndDrawing()
+
+#linkid BeginMode2D
+fn BeginMode2D(Camera2D camera)
+
+#linkid EndMode2D
+fn EndMode2D()
+
+#linkid BeginMode3D
+fn BeginMode3D(Camera3D camera)
+
+#linkid EndMode3D
+fn EndMode3D()
+
+#linkid BeginTextureMode
+fn BeginTextureMode(RenderTexture target)
+
+#linkid EndTextureMode
+fn EndTextureMode()
+
+#linkid BeginShaderMode
+fn BeginShaderMode(Shader shader)
+
+#linkid EndShaderMode
+fn EndShaderMode()
+
+#linkid BeginBlendMode
+fn BeginBlendMode(i32 mode)
+
+#linkid EndBlendMode
+fn EndBlendMode()
+
+#linkid BeginScissorMode
+fn BeginScissorMode(i32 x, i32 y, i32 width, i32 height)
+
+#linkid EndScissorMode
+fn EndScissorMode()
+
+#linkid BeginVrStereoMode
+fn BeginVrStereoMode(VrStereoConfig config)
+
+#linkid EndVrStereoMode
+fn EndVrStereoMode()
+
+#linkid LoadVrStereoConfig
+fn LoadVrStereoConfig(VrDeviceInfo device):VrStereoConfig
+
+#linkid UnloadVrStereoConfig
+fn UnloadVrStereoConfig(VrStereoConfig config)
+
+#linkid LoadShader
+fn LoadShader(anyptr vsFileName, anyptr fsFileName):Shader
+
+#linkid LoadShaderFromMemory
+fn LoadShaderFromMemory(anyptr vsCode, anyptr fsCode):Shader
+
+#linkid IsShaderValid
+fn IsShaderValid(Shader shader):i32
+
+#linkid GetShaderLocation
+fn GetShaderLocation(Shader shader, anyptr uniformName):i32
+
+#linkid GetShaderLocationAttrib
+fn GetShaderLocationAttrib(Shader shader, anyptr attribName):i32
+
+#linkid SetShaderValue
+fn SetShaderValue(Shader shader, i32 locIndex, anyptr value, i32 uniformType)
+
+#linkid SetShaderValueV
+fn SetShaderValueV(Shader shader, i32 locIndex, anyptr value, i32 uniformType, i32 count)
+
+#linkid SetShaderValueMatrix
+fn SetShaderValueMatrix(Shader shader, i32 locIndex, Matrix mat)
+
+#linkid SetShaderValueTexture
+fn SetShaderValueTexture(Shader shader, i32 locIndex, Texture texture)
+
+#linkid UnloadShader
+fn UnloadShader(Shader shader)
+
+#linkid GetScreenToWorldRay
+fn GetScreenToWorldRay(Vector2 position, Camera3D camera):Ray
+
+#linkid GetScreenToWorldRayEx
+fn GetScreenToWorldRayEx(Vector2 position, Camera3D camera, i32 width, i32 height):Ray
+
+#linkid GetWorldToScreen
+fn GetWorldToScreen(Vector3 position, Camera3D camera):Vector2
+
+#linkid GetWorldToScreenEx
+fn GetWorldToScreenEx(Vector3 position, Camera3D camera, i32 width, i32 height):Vector2
+
+#linkid GetWorldToScreen2D
+fn GetWorldToScreen2D(Vector2 position, Camera2D camera):Vector2
+
+#linkid GetScreenToWorld2D
+fn GetScreenToWorld2D(Vector2 position, Camera2D camera):Vector2
+
+#linkid GetCameraMatrix
+fn GetCameraMatrix(Camera3D camera):Matrix
+
+#linkid GetCameraMatrix2D
+fn GetCameraMatrix2D(Camera2D camera):Matrix
+
+#linkid SetTargetFPS
+fn SetTargetFPS(i32 fps)
+
+#linkid GetFrameTime
+fn GetFrameTime():f32
+
+#linkid GetTime
+fn GetTime():f64
+
+#linkid GetFPS
+fn GetFPS():i32
+
+#linkid SwapScreenBuffer
+fn SwapScreenBuffer()
+
+#linkid PollInputEvents
+fn PollInputEvents()
+
+#linkid WaitTime
+fn WaitTime(f64 seconds)
+
+#linkid SetRandomSeed
+fn SetRandomSeed(u32 seed)
+
+#linkid GetRandomValue
+fn GetRandomValue(i32 min, i32 max):i32
+
+#linkid LoadRandomSequence
+fn LoadRandomSequence(u32 count, i32 min, i32 max):anyptr
+
+#linkid UnloadRandomSequence
+fn UnloadRandomSequence(anyptr sequence)
+
+#linkid TakeScreenshot
+fn TakeScreenshot(anyptr fileName)
+
+#linkid SetConfigFlags
+fn SetConfigFlags(u32 flags)
+
+#linkid OpenURL
+fn OpenURL(anyptr url)
+
+#linkid TraceLog
+fn TraceLog(i32 logLevel, anyptr text, ...[any] args)
+
+#linkid SetTraceLogLevel
+fn SetTraceLogLevel(i32 logLevel)
+
+#linkid MemAlloc
+fn MemAlloc(u32 size):anyptr
+
+#linkid MemRealloc
+fn MemRealloc(anyptr ptr_, u32 size):anyptr
+
+#linkid MemFree
+fn MemFree(anyptr ptr_)
+
+#linkid SetTraceLogCallback
+fn SetTraceLogCallback(anyptr callback)
+
+#linkid SetLoadFileDataCallback
+fn SetLoadFileDataCallback(anyptr callback)
+
+#linkid SetSaveFileDataCallback
+fn SetSaveFileDataCallback(i32 callback)
+
+#linkid SetLoadFileTextCallback
+fn SetLoadFileTextCallback(anyptr callback)
+
+#linkid SetSaveFileTextCallback
+fn SetSaveFileTextCallback(anyptr callback)
+
+#linkid LoadFileData
+fn LoadFileData(anyptr fileName, anyptr dataSize):anyptr
+
+#linkid UnloadFileData
+fn UnloadFileData(anyptr data)
+
+#linkid SaveFileData
+fn SaveFileData(anyptr fileName, anyptr data, i32 dataSize):i32
+
+#linkid ExportDataAsCode
+fn ExportDataAsCode(anyptr data, i32 dataSize, anyptr fileName):i32
+
+#linkid LoadFileText
+fn LoadFileText(anyptr fileName):anyptr
+
+#linkid UnloadFileText
+fn UnloadFileText(anyptr text)
+
+#linkid SaveFileText
+fn SaveFileText(anyptr fileName, anyptr text):i32
+
+#linkid FileExists
+fn FileExists(anyptr fileName):i32
+
+#linkid DirectoryExists
+fn DirectoryExists(anyptr dirPath):i32
+
+#linkid IsFileExtension
+fn IsFileExtension(anyptr fileName, anyptr ext):i32
+
+#linkid GetFileLength
+fn GetFileLength(anyptr fileName):i32
+
+#linkid GetFileExtension
+fn GetFileExtension(anyptr fileName):anyptr
+
+#linkid GetFileName
+fn GetFileName(anyptr filePath):anyptr
+
+#linkid GetFileNameWithoutExt
+fn GetFileNameWithoutExt(anyptr filePath):anyptr
+
+#linkid GetDirectoryPath
+fn GetDirectoryPath(anyptr filePath):anyptr
+
+#linkid GetPrevDirectoryPath
+fn GetPrevDirectoryPath(anyptr dirPath):anyptr
+
+#linkid GetWorkingDirectory
+fn GetWorkingDirectory():anyptr
+
+#linkid GetApplicationDirectory
+fn GetApplicationDirectory():anyptr
+
+#linkid MakeDirectory
+fn MakeDirectory(anyptr dirPath):i32
+
+#linkid ChangeDirectory
+fn ChangeDirectory(anyptr dir):i32
+
+#linkid IsPathFile
+fn IsPathFile(anyptr path):i32
+
+#linkid IsFileNameValid
+fn IsFileNameValid(anyptr fileName):i32
+
+#linkid LoadDirectoryFiles
+fn LoadDirectoryFiles(anyptr dirPath):FilePathList
+
+#linkid LoadDirectoryFilesEx
+fn LoadDirectoryFilesEx(anyptr basePath, anyptr filter, bool scanSubdirs):FilePathList
+
+#linkid UnloadDirectoryFiles
+fn UnloadDirectoryFiles(FilePathList files)
+
+#linkid IsFileDropped
+fn IsFileDropped():i32
+
+#linkid LoadDroppedFiles
+fn LoadDroppedFiles():FilePathList
+
+#linkid UnloadDroppedFiles
+fn UnloadDroppedFiles(FilePathList files)
+
+#linkid GetFileModTime
+fn GetFileModTime(anyptr fileName):i64
+
+#linkid CompressData
+fn CompressData(anyptr data, i32 dataSize, anyptr compDataSize):anyptr
+
+#linkid DecompressData
+fn DecompressData(anyptr compData, i32 compDataSize, anyptr dataSize):anyptr
+
+#linkid EncodeDataBase64
+fn EncodeDataBase64(anyptr data, i32 dataSize, anyptr outputSize):anyptr
+
+#linkid DecodeDataBase64
+fn DecodeDataBase64(anyptr data, anyptr outputSize):anyptr
+
+#linkid ComputeCRC32
+fn ComputeCRC32(anyptr data, i32 dataSize):u32
+
+#linkid ComputeMD5
+fn ComputeMD5(anyptr data, i32 dataSize):anyptr
+
+#linkid ComputeSHA1
+fn ComputeSHA1(anyptr data, i32 dataSize):anyptr
+
+#linkid LoadAutomationEventList
+fn LoadAutomationEventList(anyptr fileName):AutomationEventList
+
+#linkid UnloadAutomationEventList
+fn UnloadAutomationEventList(AutomationEventList list)
+
+#linkid ExportAutomationEventList
+fn ExportAutomationEventList(AutomationEventList list, anyptr fileName):i32
+
+#linkid SetAutomationEventList
+fn SetAutomationEventList(anyptr list)
+
+#linkid SetAutomationEventBaseFrame
+fn SetAutomationEventBaseFrame(i32 frame)
+
+#linkid StartAutomationEventRecording
+fn StartAutomationEventRecording()
+
+#linkid StopAutomationEventRecording
+fn StopAutomationEventRecording()
+
+#linkid PlayAutomationEvent
+fn PlayAutomationEvent(AutomationEvent event)
+
+#linkid IsKeyPressed
+fn IsKeyPressed(i32 key):i32
+
+#linkid IsKeyPressedRepeat
+fn IsKeyPressedRepeat(i32 key):i32
+
+#linkid IsKeyDown
+fn IsKeyDown(i32 key):i32
+
+#linkid IsKeyReleased
+fn IsKeyReleased(i32 key):i32
+
+#linkid IsKeyUp
+fn IsKeyUp(i32 key):i32
+
+#linkid GetKeyPressed
+fn GetKeyPressed():i32
+
+#linkid GetCharPressed
+fn GetCharPressed():i32
+
+#linkid SetExitKey
+fn SetExitKey(i32 key)
+
+#linkid IsGamepadAvailable
+fn IsGamepadAvailable(i32 gamepad):i32
+
+#linkid GetGamepadName
+fn GetGamepadName(i32 gamepad):anyptr
+
+#linkid IsGamepadButtonPressed
+fn IsGamepadButtonPressed(i32 gamepad, i32 button):i32
+
+#linkid IsGamepadButtonDown
+fn IsGamepadButtonDown(i32 gamepad, i32 button):i32
+
+#linkid IsGamepadButtonReleased
+fn IsGamepadButtonReleased(i32 gamepad, i32 button):i32
+
+#linkid IsGamepadButtonUp
+fn IsGamepadButtonUp(i32 gamepad, i32 button):i32
+
+#linkid GetGamepadButtonPressed
+fn GetGamepadButtonPressed():i32
+
+#linkid GetGamepadAxisCount
+fn GetGamepadAxisCount(i32 gamepad):i32
+
+#linkid GetGamepadAxisMovement
+fn GetGamepadAxisMovement(i32 gamepad, i32 axis):f32
+
+#linkid SetGamepadMappings
+fn SetGamepadMappings(anyptr mappings):i32
+
+#linkid SetGamepadVibration
+fn SetGamepadVibration(i32 gamepad, f32 leftMotor, f32 rightMotor, f32 duration)
+
+#linkid IsMouseButtonPressed
+fn IsMouseButtonPressed(i32 button):i32
+
+#linkid IsMouseButtonDown
+fn IsMouseButtonDown(i32 button):i32
+
+#linkid IsMouseButtonReleased
+fn IsMouseButtonReleased(i32 button):i32
+
+#linkid IsMouseButtonUp
+fn IsMouseButtonUp(i32 button):i32
+
+#linkid GetMouseX
+fn GetMouseX():i32
+
+#linkid GetMouseY
+fn GetMouseY():i32
+
+#linkid GetMousePosition
+fn GetMousePosition():Vector2
+
+#linkid GetMouseDelta
+fn GetMouseDelta():Vector2
+
+#linkid SetMousePosition
+fn SetMousePosition(i32 x, i32 y)
+
+#linkid SetMouseOffset
+fn SetMouseOffset(i32 offsetX, i32 offsetY)
+
+#linkid SetMouseScale
+fn SetMouseScale(f32 scaleX, f32 scaleY)
+
+#linkid GetMouseWheelMove
+fn GetMouseWheelMove():f32
+
+#linkid GetMouseWheelMoveV
+fn GetMouseWheelMoveV():Vector2
+
+#linkid SetMouseCursor
+fn SetMouseCursor(i32 cursor)
+
+#linkid GetTouchX
+fn GetTouchX():i32
+
+#linkid GetTouchY
+fn GetTouchY():i32
+
+#linkid GetTouchPosition
+fn GetTouchPosition(i32 index):Vector2
+
+#linkid GetTouchPointId
+fn GetTouchPointId(i32 index):i32
+
+#linkid GetTouchPointCount
+fn GetTouchPointCount():i32
+
+#linkid SetGesturesEnabled
+fn SetGesturesEnabled(u32 flags)
+
+#linkid IsGestureDetected
+fn IsGestureDetected(u32 gesture):i32
+
+#linkid GetGestureDetected
+fn GetGestureDetected():i32
+
+#linkid GetGestureHoldDuration
+fn GetGestureHoldDuration():f32
+
+#linkid GetGestureDragVector
+fn GetGestureDragVector():Vector2
+
+#linkid GetGestureDragAngle
+fn GetGestureDragAngle():f32
+
+#linkid GetGesturePinchVector
+fn GetGesturePinchVector():Vector2
+
+#linkid GetGesturePinchAngle
+fn GetGesturePinchAngle():f32
+
+#linkid UpdateCamera
+fn UpdateCamera(anyptr camera, i32 mode)
+
+#linkid UpdateCameraPro
+fn UpdateCameraPro(anyptr camera, Vector3 movement, Vector3 rotation, f32 zoom)
+
+#linkid SetShapesTexture
+fn SetShapesTexture(Texture texture, Rectangle source)
+
+#linkid GetShapesTexture
+fn GetShapesTexture():Texture
+
+#linkid GetShapesTextureRectangle
+fn GetShapesTextureRectangle():Rectangle
+
+#linkid DrawPixel
+fn DrawPixel(i32 posX, i32 posY, Color color)
+
+#linkid DrawPixelV
+fn DrawPixelV(Vector2 position, Color color)
+
+#linkid DrawLine
+fn DrawLine(i32 startPosX, i32 startPosY, i32 endPosX, i32 endPosY, Color color)
+
+#linkid DrawLineV
+fn DrawLineV(Vector2 startPos, Vector2 endPos, Color color)
+
+#linkid DrawLineEx
+fn DrawLineEx(Vector2 startPos, Vector2 endPos, f32 thick, Color color)
+
+#linkid DrawLineStrip
+fn DrawLineStrip(anyptr points, i32 pointCount, Color color)
+
+#linkid DrawLineBezier
+fn DrawLineBezier(Vector2 startPos, Vector2 endPos, f32 thick, Color color)
+
+#linkid DrawCircle
+fn DrawCircle(i32 centerX, i32 centerY, f32 radius, Color color)
+
+#linkid DrawCircleSector
+fn DrawCircleSector(Vector2 center, f32 radius, f32 startAngle, f32 endAngle, i32 segments, Color color)
+
+#linkid DrawCircleSectorLines
+fn DrawCircleSectorLines(Vector2 center, f32 radius, f32 startAngle, f32 endAngle, i32 segments, Color color)
+
+#linkid DrawCircleGradient
+fn DrawCircleGradient(i32 centerX, i32 centerY, f32 radius, Color inner, Color outer)
+
+#linkid DrawCircleV
+fn DrawCircleV(Vector2 center, f32 radius, Color color)
+
+#linkid DrawCircleLines
+fn DrawCircleLines(i32 centerX, i32 centerY, f32 radius, Color color)
+
+#linkid DrawCircleLinesV
+fn DrawCircleLinesV(Vector2 center, f32 radius, Color color)
+
+#linkid DrawEllipse
+fn DrawEllipse(i32 centerX, i32 centerY, f32 radiusH, f32 radiusV, Color color)
+
+#linkid DrawEllipseLines
+fn DrawEllipseLines(i32 centerX, i32 centerY, f32 radiusH, f32 radiusV, Color color)
+
+#linkid DrawRing
+fn DrawRing(Vector2 center, f32 innerRadius, f32 outerRadius, f32 startAngle, f32 endAngle, i32 segments, Color color)
+
+#linkid DrawRingLines
+fn DrawRingLines(Vector2 center, f32 innerRadius, f32 outerRadius, f32 startAngle, f32 endAngle, i32 segments, Color color)
+
+#linkid DrawRectangle
+fn DrawRectangle(i32 posX, i32 posY, i32 width, i32 height, Color color)
+
+#linkid DrawRectangleV
+fn DrawRectangleV(Vector2 position, Vector2 size, Color color)
+
+#linkid DrawRectangleRec
+fn DrawRectangleRec(Rectangle rec, Color color)
+
+#linkid DrawRectanglePro
+fn DrawRectanglePro(Rectangle rec, Vector2 origin, f32 rotation, Color color)
+
+#linkid DrawRectangleGradientV
+fn DrawRectangleGradientV(i32 posX, i32 posY, i32 width, i32 height, Color top, Color bottom)
+
+#linkid DrawRectangleGradientH
+fn DrawRectangleGradientH(i32 posX, i32 posY, i32 width, i32 height, Color left, Color right)
+
+#linkid DrawRectangleGradientEx
+fn DrawRectangleGradientEx(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight)
+
+#linkid DrawRectangleLines
+fn DrawRectangleLines(i32 posX, i32 posY, i32 width, i32 height, Color color)
+
+#linkid DrawRectangleLinesEx
+fn DrawRectangleLinesEx(Rectangle rec, f32 lineThick, Color color)
+
+#linkid DrawRectangleRounded
+fn DrawRectangleRounded(Rectangle rec, f32 roundness, i32 segments, Color color)
+
+#linkid DrawRectangleRoundedLines
+fn DrawRectangleRoundedLines(Rectangle rec, f32 roundness, i32 segments, Color color)
+
+#linkid DrawRectangleRoundedLinesEx
+fn DrawRectangleRoundedLinesEx(Rectangle rec, f32 roundness, i32 segments, f32 lineThick, Color color)
+
+#linkid DrawTriangle
+fn DrawTriangle(Vector2 v1, Vector2 v2, Vector2 v3, Color color)
+
+#linkid DrawTriangleLines
+fn DrawTriangleLines(Vector2 v1, Vector2 v2, Vector2 v3, Color color)
+
+#linkid DrawTriangleFan
+fn DrawTriangleFan(anyptr points, i32 pointCount, Color color)
+
+#linkid DrawTriangleStrip
+fn DrawTriangleStrip(anyptr points, i32 pointCount, Color color)
+
+#linkid DrawPoly
+fn DrawPoly(Vector2 center, i32 sides, f32 radius, f32 rotation, Color color)
+
+#linkid DrawPolyLines
+fn DrawPolyLines(Vector2 center, i32 sides, f32 radius, f32 rotation, Color color)
+
+#linkid DrawPolyLinesEx
+fn DrawPolyLinesEx(Vector2 center, i32 sides, f32 radius, f32 rotation, f32 lineThick, Color color)
+
+#linkid DrawSplineLinear
+fn DrawSplineLinear(anyptr points, i32 pointCount, f32 thick, Color color)
+
+#linkid DrawSplineBasis
+fn DrawSplineBasis(anyptr points, i32 pointCount, f32 thick, Color color)
+
+#linkid DrawSplineCatmullRom
+fn DrawSplineCatmullRom(anyptr points, i32 pointCount, f32 thick, Color color)
+
+#linkid DrawSplineBezierQuadratic
+fn DrawSplineBezierQuadratic(anyptr points, i32 pointCount, f32 thick, Color color)
+
+#linkid DrawSplineBezierCubic
+fn DrawSplineBezierCubic(anyptr points, i32 pointCount, f32 thick, Color color)
+
+#linkid DrawSplineSegmentLinear
+fn DrawSplineSegmentLinear(Vector2 p1, Vector2 p2, f32 thick, Color color)
+
+#linkid DrawSplineSegmentBasis
+fn DrawSplineSegmentBasis(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, f32 thick, Color color)
+
+#linkid DrawSplineSegmentCatmullRom
+fn DrawSplineSegmentCatmullRom(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, f32 thick, Color color)
+
+#linkid DrawSplineSegmentBezierQuadratic
+fn DrawSplineSegmentBezierQuadratic(Vector2 p1, Vector2 c2, Vector2 p3, f32 thick, Color color)
+
+#linkid DrawSplineSegmentBezierCubic
+fn DrawSplineSegmentBezierCubic(Vector2 p1, Vector2 c2, Vector2 c3, Vector2 p4, f32 thick, Color color)
+
+#linkid GetSplinePointLinear
+fn GetSplinePointLinear(Vector2 startPos, Vector2 endPos, f32 t):Vector2
+
+#linkid GetSplinePointBasis
+fn GetSplinePointBasis(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, f32 t):Vector2
+
+#linkid GetSplinePointCatmullRom
+fn GetSplinePointCatmullRom(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, f32 t):Vector2
+
+#linkid GetSplinePointBezierQuad
+fn GetSplinePointBezierQuad(Vector2 p1, Vector2 c2, Vector2 p3, f32 t):Vector2
+
+#linkid GetSplinePointBezierCubic
+fn GetSplinePointBezierCubic(Vector2 p1, Vector2 c2, Vector2 c3, Vector2 p4, f32 t):Vector2
+
+#linkid CheckCollisionRecs
+fn CheckCollisionRecs(Rectangle rec1, Rectangle rec2):i32
+
+#linkid CheckCollisionCircles
+fn CheckCollisionCircles(Vector2 center1, f32 radius1, Vector2 center2, f32 radius2):i32
+
+#linkid CheckCollisionCircleRec
+fn CheckCollisionCircleRec(Vector2 center, f32 radius, Rectangle rec):i32
+
+#linkid CheckCollisionCircleLine
+fn CheckCollisionCircleLine(Vector2 center, f32 radius, Vector2 p1, Vector2 p2):i32
+
+#linkid CheckCollisionPointRec
+fn CheckCollisionPointRec(Vector2 point, Rectangle rec):i32
+
+#linkid CheckCollisionPointCircle
+fn CheckCollisionPointCircle(Vector2 point, Vector2 center, f32 radius):i32
+
+#linkid CheckCollisionPointTriangle
+fn CheckCollisionPointTriangle(Vector2 point, Vector2 p1, Vector2 p2, Vector2 p3):i32
+
+#linkid CheckCollisionPointLine
+fn CheckCollisionPointLine(Vector2 point, Vector2 p1, Vector2 p2, i32 threshold):i32
+
+#linkid CheckCollisionPointPoly
+fn CheckCollisionPointPoly(Vector2 point, anyptr points, i32 pointCount):i32
+
+#linkid CheckCollisionLines
+fn CheckCollisionLines(Vector2 startPos1, Vector2 endPos1, Vector2 startPos2, Vector2 endPos2, anyptr collisionPoint):i32
+
+#linkid GetCollisionRec
+fn GetCollisionRec(Rectangle rec1, Rectangle rec2):Rectangle
+
+#linkid LoadImage
+fn LoadImage(anyptr fileName):Image
+
+#linkid LoadImageRaw
+fn LoadImageRaw(anyptr fileName, i32 width, i32 height, i32 format, i32 headerSize):Image
+
+#linkid LoadImageAnim
+fn LoadImageAnim(anyptr fileName, anyptr frames):Image
+
+#linkid LoadImageAnimFromMemory
+fn LoadImageAnimFromMemory(anyptr fileType, anyptr fileData, i32 dataSize, anyptr frames):Image
+
+#linkid LoadImageFromMemory
+fn LoadImageFromMemory(anyptr fileType, anyptr fileData, i32 dataSize):Image
+
+#linkid LoadImageFromTexture
+fn LoadImageFromTexture(Texture texture):Image
+
+#linkid LoadImageFromScreen
+fn LoadImageFromScreen():Image
+
+#linkid IsImageValid
+fn IsImageValid(Image image):i32
+
+#linkid UnloadImage
+fn UnloadImage(Image image)
+
+#linkid ExportImage
+fn ExportImage(Image image, anyptr fileName):i32
+
+#linkid ExportImageToMemory
+fn ExportImageToMemory(Image image, anyptr fileType, anyptr fileSize):anyptr
+
+#linkid ExportImageAsCode
+fn ExportImageAsCode(Image image, anyptr fileName):i32
+
+#linkid GenImageColor
+fn GenImageColor(i32 width, i32 height, Color color):Image
+
+#linkid GenImageGradientLinear
+fn GenImageGradientLinear(i32 width, i32 height, i32 direction, Color start, Color end):Image
+
+#linkid GenImageGradientRadial
+fn GenImageGradientRadial(i32 width, i32 height, f32 density, Color inner, Color outer):Image
+
+#linkid GenImageGradientSquare
+fn GenImageGradientSquare(i32 width, i32 height, f32 density, Color inner, Color outer):Image
+
+#linkid GenImageChecked
+fn GenImageChecked(i32 width, i32 height, i32 checksX, i32 checksY, Color col1, Color col2):Image
+
+#linkid GenImageWhiteNoise
+fn GenImageWhiteNoise(i32 width, i32 height, f32 factor):Image
+
+#linkid GenImagePerlinNoise
+fn GenImagePerlinNoise(i32 width, i32 height, i32 offsetX, i32 offsetY, f32 scale):Image
+
+#linkid GenImageCellular
+fn GenImageCellular(i32 width, i32 height, i32 tileSize):Image
+
+#linkid GenImageText
+fn GenImageText(i32 width, i32 height, anyptr text):Image
+
+#linkid ImageCopy
+fn ImageCopy(Image image):Image
+
+#linkid ImageFromImage
+fn ImageFromImage(Image image, Rectangle rec):Image
+
+#linkid ImageFromChannel
+fn ImageFromChannel(Image image, i32 selectedChannel):Image
+
+#linkid ImageText
+fn ImageText(anyptr text, i32 fontSize, Color color):Image
+
+#linkid ImageTextEx
+fn ImageTextEx(Font font, anyptr text, f32 fontSize, f32 spacing, Color tint):Image
+
+#linkid ImageFormat
+fn ImageFormat(anyptr image, i32 newFormat)
+
+#linkid ImageToPOT
+fn ImageToPOT(anyptr image, Color fill)
+
+#linkid ImageCrop
+fn ImageCrop(anyptr image, Rectangle crop)
+
+#linkid ImageAlphaCrop
+fn ImageAlphaCrop(anyptr image, f32 threshold)
+
+#linkid ImageAlphaClear
+fn ImageAlphaClear(anyptr image, Color color, f32 threshold)
+
+#linkid ImageAlphaMask
+fn ImageAlphaMask(anyptr image, Image alphaMask)
+
+#linkid ImageAlphaPremultiply
+fn ImageAlphaPremultiply(anyptr image)
+
+#linkid ImageBlurGaussian
+fn ImageBlurGaussian(anyptr image, i32 blurSize)
+
+#linkid ImageKernelConvolution
+fn ImageKernelConvolution(anyptr image, anyptr kernel, i32 kernelSize)
+
+#linkid ImageResize
+fn ImageResize(anyptr image, i32 newWidth, i32 newHeight)
+
+#linkid ImageResizeNN
+fn ImageResizeNN(anyptr image, i32 newWidth, i32 newHeight)
+
+#linkid ImageResizeCanvas
+fn ImageResizeCanvas(anyptr image, i32 newWidth, i32 newHeight, i32 offsetX, i32 offsetY, Color fill)
+
+#linkid ImageMipmaps
+fn ImageMipmaps(anyptr image)
+
+#linkid ImageDither
+fn ImageDither(anyptr image, i32 rBpp, i32 gBpp, i32 bBpp, i32 aBpp)
+
+#linkid ImageFlipVertical
+fn ImageFlipVertical(anyptr image)
+
+#linkid ImageFlipHorizontal
+fn ImageFlipHorizontal(anyptr image)
+
+#linkid ImageRotate
+fn ImageRotate(anyptr image, i32 degrees)
+
+#linkid ImageRotateCW
+fn ImageRotateCW(anyptr image)
+
+#linkid ImageRotateCCW
+fn ImageRotateCCW(anyptr image)
+
+#linkid ImageColorTint
+fn ImageColorTint(anyptr image, Color color)
+
+#linkid ImageColorInvert
+fn ImageColorInvert(anyptr image)
+
+#linkid ImageColorGrayscale
+fn ImageColorGrayscale(anyptr image)
+
+#linkid ImageColorContrast
+fn ImageColorContrast(anyptr image, f32 contrast)
+
+#linkid ImageColorBrightness
+fn ImageColorBrightness(anyptr image, i32 brightness)
+
+#linkid ImageColorReplace
+fn ImageColorReplace(anyptr image, Color color, Color replace)
+
+#linkid LoadImageColors
+fn LoadImageColors(Image image):anyptr
+
+#linkid LoadImagePalette
+fn LoadImagePalette(Image image, i32 maxPaletteSize, anyptr colorCount):anyptr
+
+#linkid UnloadImageColors
+fn UnloadImageColors(anyptr colors)
+
+#linkid UnloadImagePalette
+fn UnloadImagePalette(anyptr colors)
+
+#linkid GetImageAlphaBorder
+fn GetImageAlphaBorder(Image image, f32 threshold):Rectangle
+
+#linkid GetImageColor
+fn GetImageColor(Image image, i32 x, i32 y):Color
+
+#linkid ImageClearBackground
+fn ImageClearBackground(anyptr dst, Color color)
+
+#linkid ImageDrawPixel
+fn ImageDrawPixel(anyptr dst, i32 posX, i32 posY, Color color)
+
+#linkid ImageDrawPixelV
+fn ImageDrawPixelV(anyptr dst, Vector2 position, Color color)
+
+#linkid ImageDrawLine
+fn ImageDrawLine(anyptr dst, i32 startPosX, i32 startPosY, i32 endPosX, i32 endPosY, Color color)
+
+#linkid ImageDrawLineV
+fn ImageDrawLineV(anyptr dst, Vector2 start, Vector2 end, Color color)
+
+#linkid ImageDrawLineEx
+fn ImageDrawLineEx(anyptr dst, Vector2 start, Vector2 end, i32 thick, Color color)
+
+#linkid ImageDrawCircle
+fn ImageDrawCircle(anyptr dst, i32 centerX, i32 centerY, i32 radius, Color color)
+
+#linkid ImageDrawCircleV
+fn ImageDrawCircleV(anyptr dst, Vector2 center, i32 radius, Color color)
+
+#linkid ImageDrawCircleLines
+fn ImageDrawCircleLines(anyptr dst, i32 centerX, i32 centerY, i32 radius, Color color)
+
+#linkid ImageDrawCircleLinesV
+fn ImageDrawCircleLinesV(anyptr dst, Vector2 center, i32 radius, Color color)
+
+#linkid ImageDrawRectangle
+fn ImageDrawRectangle(anyptr dst, i32 posX, i32 posY, i32 width, i32 height, Color color)
+
+#linkid ImageDrawRectangleV
+fn ImageDrawRectangleV(anyptr dst, Vector2 position, Vector2 size, Color color)
+
+#linkid ImageDrawRectangleRec
+fn ImageDrawRectangleRec(anyptr dst, Rectangle rec, Color color)
+
+#linkid ImageDrawRectangleLines
+fn ImageDrawRectangleLines(anyptr dst, Rectangle rec, i32 thick, Color color)
+
+#linkid ImageDrawTriangle
+fn ImageDrawTriangle(anyptr dst, Vector2 v1, Vector2 v2, Vector2 v3, Color color)
+
+#linkid ImageDrawTriangleEx
+fn ImageDrawTriangleEx(anyptr dst, Vector2 v1, Vector2 v2, Vector2 v3, Color c1, Color c2, Color c3)
+
+#linkid ImageDrawTriangleLines
+fn ImageDrawTriangleLines(anyptr dst, Vector2 v1, Vector2 v2, Vector2 v3, Color color)
+
+#linkid ImageDrawTriangleFan
+fn ImageDrawTriangleFan(anyptr dst, anyptr points, i32 pointCount, Color color)
+
+#linkid ImageDrawTriangleStrip
+fn ImageDrawTriangleStrip(anyptr dst, anyptr points, i32 pointCount, Color color)
+
+#linkid ImageDraw
+fn ImageDraw(anyptr dst, Image src, Rectangle srcRec, Rectangle dstRec, Color tint)
+
+#linkid ImageDrawText
+fn ImageDrawText(anyptr dst, anyptr text, i32 posX, i32 posY, i32 fontSize, Color color)
+
+#linkid ImageDrawTextEx
+fn ImageDrawTextEx(anyptr dst, Font font, anyptr text, Vector2 position, f32 fontSize, f32 spacing, Color tint)
+
+#linkid LoadTexture
+fn LoadTexture(anyptr fileName):Texture
+
+#linkid LoadTextureFromImage
+fn LoadTextureFromImage(Image image):Texture
+
+#linkid LoadTextureCubemap
+fn LoadTextureCubemap(Image image, i32 layout):Texture
+
+#linkid LoadRenderTexture
+fn LoadRenderTexture(i32 width, i32 height):RenderTexture
+
+#linkid IsTextureValid
+fn IsTextureValid(Texture texture):i32
+
+#linkid UnloadTexture
+fn UnloadTexture(Texture texture)
+
+#linkid IsRenderTextureValid
+fn IsRenderTextureValid(RenderTexture target):i32
+
+#linkid UnloadRenderTexture
+fn UnloadRenderTexture(RenderTexture target)
+
+#linkid UpdateTexture
+fn UpdateTexture(Texture texture, anyptr pixels)
+
+#linkid UpdateTextureRec
+fn UpdateTextureRec(Texture texture, Rectangle rec, anyptr pixels)
+
+#linkid GenTextureMipmaps
+fn GenTextureMipmaps(anyptr texture)
+
+#linkid SetTextureFilter
+fn SetTextureFilter(Texture texture, i32 filter)
+
+#linkid SetTextureWrap
+fn SetTextureWrap(Texture texture, i32 wrap)
+
+#linkid DrawTexture
+fn DrawTexture(Texture texture, i32 posX, i32 posY, Color tint)
+
+#linkid DrawTextureV
+fn DrawTextureV(Texture texture, Vector2 position, Color tint)
+
+#linkid DrawTextureEx
+fn DrawTextureEx(Texture texture, Vector2 position, f32 rotation, f32 scale, Color tint)
+
+#linkid DrawTextureRec
+fn DrawTextureRec(Texture texture, Rectangle source, Vector2 position, Color tint)
+
+#linkid DrawTexturePro
+fn DrawTexturePro(Texture texture, Rectangle source, Rectangle dest, Vector2 origin, f32 rotation, Color tint)
+
+#linkid DrawTextureNPatch
+fn DrawTextureNPatch(Texture texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, f32 rotation, Color tint)
+
+#linkid ColorIsEqual
+fn ColorIsEqual(Color col1, Color col2):i32
+
+#linkid Fade
+fn Fade(Color color, f32 alpha):Color
+
+#linkid ColorToInt
+fn ColorToInt(Color color):i32
+
+#linkid ColorNormalize
+fn ColorNormalize(Color color):Vector4
+
+#linkid ColorFromNormalized
+fn ColorFromNormalized(Vector4 normalized):Color
+
+#linkid ColorToHSV
+fn ColorToHSV(Color color):Vector3
+
+#linkid ColorFromHSV
+fn ColorFromHSV(f32 hue, f32 saturation, f32 value):Color
+
+#linkid ColorTint
+fn ColorTint(Color color, Color tint):Color
+
+#linkid ColorBrightness
+fn ColorBrightness(Color color, f32 factor):Color
+
+#linkid ColorContrast
+fn ColorContrast(Color color, f32 contrast):Color
+
+#linkid ColorAlpha
+fn ColorAlpha(Color color, f32 alpha):Color
+
+#linkid ColorAlphaBlend
+fn ColorAlphaBlend(Color dst, Color src, Color tint):Color
+
+#linkid ColorLerp
+fn ColorLerp(Color color1, Color color2, f32 factor):Color
+
+#linkid GetColor
+fn GetColor(u32 hexValue):Color
+
+#linkid GetPixelColor
+fn GetPixelColor(anyptr srcPtr, i32 format):Color
+
+#linkid SetPixelColor
+fn SetPixelColor(anyptr dstPtr, Color color, i32 format)
+
+#linkid GetPixelDataSize
+fn GetPixelDataSize(i32 width, i32 height, i32 format):i32
+
+#linkid GetFontDefault
+fn GetFontDefault():Font
+
+#linkid LoadFont
+fn LoadFont(anyptr fileName):Font
+
+#linkid LoadFontEx
+fn LoadFontEx(anyptr fileName, i32 fontSize, anyptr codepoints, i32 codepointCount):Font
+
+#linkid LoadFontFromImage
+fn LoadFontFromImage(Image image, Color key, i32 firstChar):Font
+
+#linkid LoadFontFromMemory
+fn LoadFontFromMemory(anyptr fileType, anyptr fileData, i32 dataSize, i32 fontSize, anyptr codepoints, i32 codepointCount):Font
+
+#linkid IsFontValid
+fn IsFontValid(Font font):i32
+
+#linkid LoadFontData
+fn LoadFontData(anyptr fileData, i32 dataSize, i32 fontSize, anyptr codepoints, i32 codepointCount, i32 type_):anyptr
+
+#linkid GenImageFontAtlas
+fn GenImageFontAtlas(anyptr glyphs, anyptr glyphRecs, i32 glyphCount, i32 fontSize, i32 padding, i32 packMethod):Image
+
+#linkid UnloadFontData
+fn UnloadFontData(anyptr glyphs, i32 glyphCount)
+
+#linkid UnloadFont
+fn UnloadFont(Font font)
+
+#linkid ExportFontAsCode
+fn ExportFontAsCode(Font font, anyptr fileName):i32
+
+#linkid DrawFPS
+fn DrawFPS(i32 posX, i32 posY)
+
+#linkid DrawText
+fn DrawText(anyptr text, i32 posX, i32 posY, i32 fontSize, Color color)
+
+#linkid DrawTextEx
+fn DrawTextEx(Font font, anyptr text, Vector2 position, f32 fontSize, f32 spacing, Color tint)
+
+#linkid DrawTextPro
+fn DrawTextPro(Font font, anyptr text, Vector2 position, Vector2 origin, f32 rotation, f32 fontSize, f32 spacing, Color tint)
+
+#linkid DrawTextCodepoint
+fn DrawTextCodepoint(Font font, i32 codepoint, Vector2 position, f32 fontSize, Color tint)
+
+#linkid DrawTextCodepoints
+fn DrawTextCodepoints(Font font, anyptr codepoints, i32 codepointCount, Vector2 position, f32 fontSize, f32 spacing, Color tint)
+
+#linkid SetTextLineSpacing
+fn SetTextLineSpacing(i32 spacing)
+
+#linkid MeasureText
+fn MeasureText(anyptr text, i32 fontSize):i32
+
+#linkid MeasureTextEx
+fn MeasureTextEx(Font font, anyptr text, f32 fontSize, f32 spacing):Vector2
+
+#linkid GetGlyphIndex
+fn GetGlyphIndex(Font font, i32 codepoint):i32
+
+#linkid GetGlyphInfo
+fn GetGlyphInfo(Font font, i32 codepoint):GlyphInfo
+
+#linkid GetGlyphAtlasRec
+fn GetGlyphAtlasRec(Font font, i32 codepoint):Rectangle
+
+#linkid LoadUTF8
+fn LoadUTF8(anyptr codepoints, i32 length):anyptr
+
+#linkid UnloadUTF8
+fn UnloadUTF8(anyptr text)
+
+#linkid LoadCodepoints
+fn LoadCodepoints(anyptr text, anyptr count):anyptr
+
+#linkid UnloadCodepoints
+fn UnloadCodepoints(anyptr codepoints)
+
+#linkid GetCodepointCount
+fn GetCodepointCount(anyptr text):i32
+
+#linkid GetCodepoint
+fn GetCodepoint(anyptr text, anyptr codepointSize):i32
+
+#linkid GetCodepointNext
+fn GetCodepointNext(anyptr text, anyptr codepointSize):i32
+
+#linkid GetCodepointPrevious
+fn GetCodepointPrevious(anyptr text, anyptr codepointSize):i32
+
+#linkid CodepointToUTF8
+fn CodepointToUTF8(i32 codepoint, anyptr utf8Size):anyptr
+
+#linkid TextCopy
+fn TextCopy(anyptr dst, anyptr src):i32
+
+#linkid TextIsEqual
+fn TextIsEqual(anyptr text1, anyptr text2):i32
+
+#linkid TextLength
+fn TextLength(anyptr text):u32
+
+#linkid TextFormat
+fn TextFormat(anyptr text, ...[any] args):anyptr
+
+#linkid TextSubtext
+fn TextSubtext(anyptr text, i32 position, i32 length):anyptr
+
+#linkid TextReplace
+fn TextReplace(anyptr text, anyptr replace, anyptr by):anyptr
+
+#linkid TextInsert
+fn TextInsert(anyptr text, anyptr insert, i32 position):anyptr
+
+#linkid TextJoin
+fn TextJoin(anyptr textList, i32 count, anyptr delimiter):anyptr
+
+#linkid TextSplit
+fn TextSplit(anyptr text, i8 delimiter, anyptr count):anyptr
+
+#linkid TextAppend
+fn TextAppend(anyptr text, anyptr append, anyptr position)
+
+#linkid TextFindIndex
+fn TextFindIndex(anyptr text, anyptr find):i32
+
+#linkid TextToUpper
+fn TextToUpper(anyptr text):anyptr
+
+#linkid TextToLower
+fn TextToLower(anyptr text):anyptr
+
+#linkid TextToPascal
+fn TextToPascal(anyptr text):anyptr
+
+#linkid TextToSnake
+fn TextToSnake(anyptr text):anyptr
+
+#linkid TextToCamel
+fn TextToCamel(anyptr text):anyptr
+
+#linkid TextToInteger
+fn TextToInteger(anyptr text):i32
+
+#linkid TextToFloat
+fn TextToFloat(anyptr text):f32
+
+#linkid DrawLine3D
+fn DrawLine3D(Vector3 startPos, Vector3 endPos, Color color)
+
+#linkid DrawPoint3D
+fn DrawPoint3D(Vector3 position, Color color)
+
+#linkid DrawCircle3D
+fn DrawCircle3D(Vector3 center, f32 radius, Vector3 rotationAxis, f32 rotationAngle, Color color)
+
+#linkid DrawTriangle3D
+fn DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color)
+
+#linkid DrawTriangleStrip3D
+fn DrawTriangleStrip3D(anyptr points, i32 pointCount, Color color)
+
+#linkid DrawCube
+fn DrawCube(Vector3 position, f32 width, f32 height, f32 length, Color color)
+
+#linkid DrawCubeV
+fn DrawCubeV(Vector3 position, Vector3 size, Color color)
+
+#linkid DrawCubeWires
+fn DrawCubeWires(Vector3 position, f32 width, f32 height, f32 length, Color color)
+
+#linkid DrawCubeWiresV
+fn DrawCubeWiresV(Vector3 position, Vector3 size, Color color)
+
+#linkid DrawSphere
+fn DrawSphere(Vector3 centerPos, f32 radius, Color color)
+
+#linkid DrawSphereEx
+fn DrawSphereEx(Vector3 centerPos, f32 radius, i32 rings, i32 slices, Color color)
+
+#linkid DrawSphereWires
+fn DrawSphereWires(Vector3 centerPos, f32 radius, i32 rings, i32 slices, Color color)
+
+#linkid DrawCylinder
+fn DrawCylinder(Vector3 position, f32 radiusTop, f32 radiusBottom, f32 height, i32 slices, Color color)
+
+#linkid DrawCylinderEx
+fn DrawCylinderEx(Vector3 startPos, Vector3 endPos, f32 startRadius, f32 endRadius, i32 sides, Color color)
+
+#linkid DrawCylinderWires
+fn DrawCylinderWires(Vector3 position, f32 radiusTop, f32 radiusBottom, f32 height, i32 slices, Color color)
+
+#linkid DrawCylinderWiresEx
+fn DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, f32 startRadius, f32 endRadius, i32 sides, Color color)
+
+#linkid DrawCapsule
+fn DrawCapsule(Vector3 startPos, Vector3 endPos, f32 radius, i32 slices, i32 rings, Color color)
+
+#linkid DrawCapsuleWires
+fn DrawCapsuleWires(Vector3 startPos, Vector3 endPos, f32 radius, i32 slices, i32 rings, Color color)
+
+#linkid DrawPlane
+fn DrawPlane(Vector3 centerPos, Vector2 size, Color color)
+
+#linkid DrawRay
+fn DrawRay(Ray ray, Color color)
+
+#linkid DrawGrid
+fn DrawGrid(i32 slices, f32 spacing)
+
+#linkid LoadModel
+fn LoadModel(anyptr fileName):Model
+
+#linkid LoadModelFromMesh
+fn LoadModelFromMesh(Mesh mesh):Model
+
+#linkid IsModelValid
+fn IsModelValid(Model model):i32
+
+#linkid UnloadModel
+fn UnloadModel(Model model)
+
+#linkid GetModelBoundingBox
+fn GetModelBoundingBox(Model model):BoundingBox
+
+#linkid DrawModel
+fn DrawModel(Model model, Vector3 position, f32 scale, Color tint)
+
+#linkid DrawModelEx
+fn DrawModelEx(Model model, Vector3 position, Vector3 rotationAxis, f32 rotationAngle, Vector3 scale, Color tint)
+
+#linkid DrawModelWires
+fn DrawModelWires(Model model, Vector3 position, f32 scale, Color tint)
+
+#linkid DrawModelWiresEx
+fn DrawModelWiresEx(Model model, Vector3 position, Vector3 rotationAxis, f32 rotationAngle, Vector3 scale, Color tint)
+
+#linkid DrawModelPoints
+fn DrawModelPoints(Model model, Vector3 position, f32 scale, Color tint)
+
+#linkid DrawModelPointsEx
+fn DrawModelPointsEx(Model model, Vector3 position, Vector3 rotationAxis, f32 rotationAngle, Vector3 scale, Color tint)
+
+#linkid DrawBoundingBox
+fn DrawBoundingBox(BoundingBox box, Color color)
+
+#linkid DrawBillboard
+fn DrawBillboard(Camera3D camera, Texture texture, Vector3 position, f32 scale, Color tint)
+
+#linkid DrawBillboardRec
+fn DrawBillboardRec(Camera3D camera, Texture texture, Rectangle source, Vector3 position, Vector2 size, Color tint)
+
+#linkid DrawBillboardPro
+fn DrawBillboardPro(Camera3D camera, Texture texture, Rectangle source, Vector3 position, Vector3 up, Vector2 size, Vector2 origin, f32 rotation, Color tint)
+
+#linkid UploadMesh
+fn UploadMesh(anyptr mesh, bool dynamic)
+
+#linkid UpdateMeshBuffer
+fn UpdateMeshBuffer(Mesh mesh, i32 index, anyptr data, i32 dataSize, i32 offset)
+
+#linkid UnloadMesh
+fn UnloadMesh(Mesh mesh)
+
+#linkid DrawMesh
+fn DrawMesh(Mesh mesh, Material material, Matrix transform)
+
+#linkid DrawMeshInstanced
+fn DrawMeshInstanced(Mesh mesh, Material material, anyptr transforms, i32 instances)
+
+#linkid GetMeshBoundingBox
+fn GetMeshBoundingBox(Mesh mesh):BoundingBox
+
+#linkid GenMeshTangents
+fn GenMeshTangents(anyptr mesh)
+
+#linkid ExportMesh
+fn ExportMesh(Mesh mesh, anyptr fileName):i32
+
+#linkid ExportMeshAsCode
+fn ExportMeshAsCode(Mesh mesh, anyptr fileName):i32
+
+#linkid GenMeshPoly
+fn GenMeshPoly(i32 sides, f32 radius):Mesh
+
+#linkid GenMeshPlane
+fn GenMeshPlane(f32 width, f32 length, i32 resX, i32 resZ):Mesh
+
+#linkid GenMeshCube
+fn GenMeshCube(f32 width, f32 height, f32 length):Mesh
+
+#linkid GenMeshSphere
+fn GenMeshSphere(f32 radius, i32 rings, i32 slices):Mesh
+
+#linkid GenMeshHemiSphere
+fn GenMeshHemiSphere(f32 radius, i32 rings, i32 slices):Mesh
+
+#linkid GenMeshCylinder
+fn GenMeshCylinder(f32 radius, f32 height, i32 slices):Mesh
+
+#linkid GenMeshCone
+fn GenMeshCone(f32 radius, f32 height, i32 slices):Mesh
+
+#linkid GenMeshTorus
+fn GenMeshTorus(f32 radius, f32 size, i32 radSeg, i32 sides):Mesh
+
+#linkid GenMeshKnot
+fn GenMeshKnot(f32 radius, f32 size, i32 radSeg, i32 sides):Mesh
+
+#linkid GenMeshHeightmap
+fn GenMeshHeightmap(Image heightmap, Vector3 size):Mesh
+
+#linkid GenMeshCubicmap
+fn GenMeshCubicmap(Image cubicmap, Vector3 cubeSize):Mesh
+
+#linkid LoadMaterials
+fn LoadMaterials(anyptr fileName, anyptr materialCount):anyptr
+
+#linkid LoadMaterialDefault
+fn LoadMaterialDefault():Material
+
+#linkid IsMaterialValid
+fn IsMaterialValid(Material material):i32
+
+#linkid UnloadMaterial
+fn UnloadMaterial(Material material)
+
+#linkid SetMaterialTexture
+fn SetMaterialTexture(anyptr material, i32 mapType, Texture texture)
+
+#linkid SetModelMeshMaterial
+fn SetModelMeshMaterial(anyptr model, i32 meshId, i32 materialId)
+
+#linkid LoadModelAnimations
+fn LoadModelAnimations(anyptr fileName, anyptr animCount):anyptr
+
+#linkid UpdateModelAnimation
+fn UpdateModelAnimation(Model model, ModelAnimation anim, i32 frame)
+
+#linkid UpdateModelAnimationBones
+fn UpdateModelAnimationBones(Model model, ModelAnimation anim, i32 frame)
+
+#linkid UnloadModelAnimation
+fn UnloadModelAnimation(ModelAnimation anim)
+
+#linkid UnloadModelAnimations
+fn UnloadModelAnimations(anyptr animations, i32 animCount)
+
+#linkid IsModelAnimationValid
+fn IsModelAnimationValid(Model model, ModelAnimation anim):i32
+
+#linkid CheckCollisionSpheres
+fn CheckCollisionSpheres(Vector3 center1, f32 radius1, Vector3 center2, f32 radius2):i32
+
+#linkid CheckCollisionBoxes
+fn CheckCollisionBoxes(BoundingBox box1, BoundingBox box2):i32
+
+#linkid CheckCollisionBoxSphere
+fn CheckCollisionBoxSphere(BoundingBox box, Vector3 center, f32 radius):i32
+
+#linkid GetRayCollisionSphere
+fn GetRayCollisionSphere(Ray ray, Vector3 center, f32 radius):RayCollision
+
+#linkid GetRayCollisionBox
+fn GetRayCollisionBox(Ray ray, BoundingBox box):RayCollision
+
+#linkid GetRayCollisionMesh
+fn GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform):RayCollision
+
+#linkid GetRayCollisionTriangle
+fn GetRayCollisionTriangle(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3):RayCollision
+
+#linkid GetRayCollisionQuad
+fn GetRayCollisionQuad(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4):RayCollision
+
+#linkid InitAudioDevice
+fn InitAudioDevice()
+
+#linkid CloseAudioDevice
+fn CloseAudioDevice()
+
+#linkid IsAudioDeviceReady
+fn IsAudioDeviceReady():i32
+
+#linkid SetMasterVolume
+fn SetMasterVolume(f32 volume)
+
+#linkid GetMasterVolume
+fn GetMasterVolume():f32
+
+#linkid LoadWave
+fn LoadWave(anyptr fileName):Wave
+
+#linkid LoadWaveFromMemory
+fn LoadWaveFromMemory(anyptr fileType, anyptr fileData, i32 dataSize):Wave
+
+#linkid IsWaveValid
+fn IsWaveValid(Wave wave):i32
+
+#linkid LoadSound
+fn LoadSound(anyptr fileName):Sound
+
+#linkid LoadSoundFromWave
+fn LoadSoundFromWave(Wave wave):Sound
+
+#linkid LoadSoundAlias
+fn LoadSoundAlias(Sound source):Sound
+
+#linkid IsSoundValid
+fn IsSoundValid(Sound sound):i32
+
+#linkid UpdateSound
+fn UpdateSound(Sound sound, anyptr data, i32 sampleCount)
+
+#linkid UnloadWave
+fn UnloadWave(Wave wave)
+
+#linkid UnloadSound
+fn UnloadSound(Sound sound)
+
+#linkid UnloadSoundAlias
+fn UnloadSoundAlias(Sound alias)
+
+#linkid ExportWave
+fn ExportWave(Wave wave, anyptr fileName):i32
+
+#linkid ExportWaveAsCode
+fn ExportWaveAsCode(Wave wave, anyptr fileName):i32
+
+#linkid PlaySound
+fn PlaySound(Sound sound)
+
+#linkid StopSound
+fn StopSound(Sound sound)
+
+#linkid PauseSound
+fn PauseSound(Sound sound)
+
+#linkid ResumeSound
+fn ResumeSound(Sound sound)
+
+#linkid IsSoundPlaying
+fn IsSoundPlaying(Sound sound):i32
+
+#linkid SetSoundVolume
+fn SetSoundVolume(Sound sound, f32 volume)
+
+#linkid SetSoundPitch
+fn SetSoundPitch(Sound sound, f32 pitch)
+
+#linkid SetSoundPan
+fn SetSoundPan(Sound sound, f32 pan)
+
+#linkid WaveCopy
+fn WaveCopy(Wave wave):Wave
+
+#linkid WaveCrop
+fn WaveCrop(anyptr wave, i32 initFrame, i32 finalFrame)
+
+#linkid WaveFormat
+fn WaveFormat(anyptr wave, i32 sampleRate, i32 sampleSize, i32 channels)
+
+#linkid LoadWaveSamples
+fn LoadWaveSamples(Wave wave):anyptr
+
+#linkid UnloadWaveSamples
+fn UnloadWaveSamples(anyptr samples)
+
+#linkid LoadMusicStream
+fn LoadMusicStream(anyptr fileName):Music
+
+#linkid LoadMusicStreamFromMemory
+fn LoadMusicStreamFromMemory(anyptr fileType, anyptr data, i32 dataSize):Music
+
+#linkid IsMusicValid
+fn IsMusicValid(Music music):i32
+
+#linkid UnloadMusicStream
+fn UnloadMusicStream(Music music)
+
+#linkid PlayMusicStream
+fn PlayMusicStream(Music music)
+
+#linkid IsMusicStreamPlaying
+fn IsMusicStreamPlaying(Music music):i32
+
+#linkid UpdateMusicStream
+fn UpdateMusicStream(Music music)
+
+#linkid StopMusicStream
+fn StopMusicStream(Music music)
+
+#linkid PauseMusicStream
+fn PauseMusicStream(Music music)
+
+#linkid ResumeMusicStream
+fn ResumeMusicStream(Music music)
+
+#linkid SeekMusicStream
+fn SeekMusicStream(Music music, f32 position)
+
+#linkid SetMusicVolume
+fn SetMusicVolume(Music music, f32 volume)
+
+#linkid SetMusicPitch
+fn SetMusicPitch(Music music, f32 pitch)
+
+#linkid SetMusicPan
+fn SetMusicPan(Music music, f32 pan)
+
+#linkid GetMusicTimeLength
+fn GetMusicTimeLength(Music music):f32
+
+#linkid GetMusicTimePlayed
+fn GetMusicTimePlayed(Music music):f32
+
+#linkid LoadAudioStream
+fn LoadAudioStream(u32 sampleRate, u32 sampleSize, u32 channels):AudioStream
+
+#linkid IsAudioStreamValid
+fn IsAudioStreamValid(AudioStream stream):i32
+
+#linkid UnloadAudioStream
+fn UnloadAudioStream(AudioStream stream)
+
+#linkid UpdateAudioStream
+fn UpdateAudioStream(AudioStream stream, anyptr data, i32 frameCount)
+
+#linkid IsAudioStreamProcessed
+fn IsAudioStreamProcessed(AudioStream stream):i32
+
+#linkid PlayAudioStream
+fn PlayAudioStream(AudioStream stream)
+
+#linkid PauseAudioStream
+fn PauseAudioStream(AudioStream stream)
+
+#linkid ResumeAudioStream
+fn ResumeAudioStream(AudioStream stream)
+
+#linkid IsAudioStreamPlaying
+fn IsAudioStreamPlaying(AudioStream stream):i32
+
+#linkid StopAudioStream
+fn StopAudioStream(AudioStream stream)
+
+#linkid SetAudioStreamVolume
+fn SetAudioStreamVolume(AudioStream stream, f32 volume)
+
+#linkid SetAudioStreamPitch
+fn SetAudioStreamPitch(AudioStream stream, f32 pitch)
+
+#linkid SetAudioStreamPan
+fn SetAudioStreamPan(AudioStream stream, f32 pan)
+
+#linkid SetAudioStreamBufferSizeDefault
+fn SetAudioStreamBufferSizeDefault(i32 size)
+
+#linkid SetAudioStreamCallback
+fn SetAudioStreamCallback(AudioStream stream, anyptr callback)
+
+#linkid AttachAudioStreamProcessor
+fn AttachAudioStreamProcessor(AudioStream stream, anyptr processor)
+
+#linkid DetachAudioStreamProcessor
+fn DetachAudioStreamProcessor(AudioStream stream, anyptr processor)
+
+#linkid AttachAudioMixedProcessor
+fn AttachAudioMixedProcessor(anyptr processor)
+
+#linkid DetachAudioMixedProcessor
+fn DetachAudioMixedProcessor(anyptr processor)

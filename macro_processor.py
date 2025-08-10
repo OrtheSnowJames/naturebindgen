@@ -1,4 +1,5 @@
 from typing import Optional, List, Dict, Any
+from expr_ast import parse_macro_replacement, render_constant
 from clang.cindex import Index, TranslationUnit, CursorKind, TypeKind
 
 class MacroProcessor:
@@ -194,40 +195,12 @@ class MacroProcessor:
                     value = rhs_text
                     print(f"DEBUG: Initializer from RHS text -> '{value}'")
 
-                # If value still unknown, try to parse C compound literal
-                if value == '<unknown>' and rhs_text:
-                    import re as _re
-                    # (Type){...}
-                    m = _re.match(r"^\(\s*(?:struct\s+)?(\w+)\s*\)\s*\{([\s\S]*)\}$", rhs_text)
-                    if m:
-                        struct_name = m.group(1)
-                        if struct_name in self.structs:
-                            raw_vals = m.group(2)
-                            parts = [p.strip() for p in raw_vals.split(',') if p.strip()]
-                            field_names = [f.name for f in self.structs[struct_name].fields]
-                            pairs = []
-                            for i, fname in enumerate(field_names):
-                                if i < len(parts):
-                                    pairs.append(f"{fname}={parts[i]}")
-                            value = f"{struct_name}{{{','.join(pairs)}}}"
-                            type_name = struct_name
-                            print(f"DEBUG: Parsed compound literal (Type){{...}} -> '{value}'")
-                    else:
-                        # Type{...}
-                        m2 = _re.match(r"^(?:struct\s+)?(\w+)\s*\{([\s\S]*)\}$", rhs_text)
-                        if m2:
-                            struct_name = m2.group(1)
-                            if struct_name in self.structs:
-                                raw_vals = m2.group(2)
-                                parts = [p.strip() for p in raw_vals.split(',') if p.strip()]
-                                field_names = [f.name for f in self.structs[struct_name].fields]
-                                pairs = []
-                                for i, fname in enumerate(field_names):
-                                    if i < len(parts):
-                                        pairs.append(f"{fname}={parts[i]}")
-                                value = f"{struct_name}{{{','.join(pairs)}}}"
-                                type_name = struct_name
-                                print(f"DEBUG: Parsed compound literal Type{{...}} -> '{value}'")
+                # Try robust parsing via lightweight AST
+                expr = parse_macro_replacement(rhs_text)
+                if expr is not None:
+                    rendered = render_constant(expr, self.structs, self.unions)
+                    if rendered is not None:
+                        type_name, value = rendered
 
                 # Normalize string literal to Nature pointer form
                 if isinstance(value, str) and value.startswith('"') and value.endswith('"'):
@@ -236,7 +209,6 @@ class MacroProcessor:
 
                 # If the value looks like Struct{...}, ensure type_name matches
                 if isinstance(value, str):
-                    import re as _re
                     m3 = _re.match(r"^(\w+)\s*\{", value)
                     if m3 and m3.group(1) in self.structs:
                         type_name = m3.group(1)
