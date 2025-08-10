@@ -1,0 +1,19 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/naturebindgen
+naturebindgen.so
+naturebindgen.dylib
+naturebindgen.dll
+naturebindgen.a
+naturebindgen.lib
+naturebindgen-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
+
+# Ignore old D code
+source  

@@ -1,0 +1,16 @@
+{
+	"name": "naturebindgen",
+	"description": "A tool to generate Nature bindings from C headers.",
+	"authors": [
+		"james"
+	],
+	"copyright": "Copyright © 2025, james",
+	"license": "Public Domain",
+	"dependencies": {
+		"libclang": ">=0.3.3"
+	},
+	"targetType": "executable",
+	"mainSourceFile": "source/app.d",
+	"lflags-posix": ["-lclang"],
+	"lflags-windows": ["-llibclang"]
+}
